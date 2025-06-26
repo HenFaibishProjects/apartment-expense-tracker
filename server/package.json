@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "cd ../client && npm install && ng build --configuration production && cd ../server && nest build",
+    "build": "cd ../client && npm install && npx ng build --configuration production && cd ../server && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
