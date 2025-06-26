@@ -1,17 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from '../users/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+export enum ApartmentStatus {
+  RENTED = 'RENTED',
+  EMPTY = 'EMPTY',
+  UNDER_CONSTRUCTION = 'UNDER_CONSTRUCTION',
+}
 
 @Entity()
-export class Apartment {
+export class AprApartmentStatus {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number | undefined;
 
   @Column()
-  name: string;
+  address: string | undefined;
 
-  @Column()
-  location: string;
+  @Column('float')
+  size: number | undefined;
 
-  @ManyToOne(() => User)
-  owner: User;
+  @Column({
+    type: 'enum',
+    enum: ApartmentStatus,
+    default: ApartmentStatus.EMPTY,
+  })
+  status: ApartmentStatus | undefined;
 }

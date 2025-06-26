@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
+import { ApartmentUser } from './user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly repo: UsersRepository) {}
 
-  async register(dto: CreateUserDto): Promise<User> {
+  async register(dto: CreateUserDto): Promise<ApartmentUser> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const hashed = await bcrypt.hash(dto.password, 10);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

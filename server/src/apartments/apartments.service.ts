@@ -1,16 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { ApartmentsRepository } from './apartments.repository';
-import { CreateApartmentDto } from './dto/create-apartment.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AprApartmentStatus } from './apartment.entity';
+import { ApartmentRepository } from './apartments.repository';
 
 @Injectable()
 export class ApartmentsService {
-  constructor(private readonly repo: ApartmentsRepository) {}
+  constructor(
+    @InjectRepository(AprApartmentStatus)
+    private apartmentRepository: ApartmentRepository,
+  ) {}
 
-  async create(dto: CreateApartmentDto) {
-    return this.repo.create(dto.name, dto.location, dto.ownerId);
+  async findAll(): Promise<AprApartmentStatus[]> {
+    return await this.apartmentRepository.findAll();
   }
 
-  async getAll() {
-    return this.repo.findAll();
+  async findOne(id: number) {
+    return await this.apartmentRepository.findOne(id);
+  }
+
+  async create(data: Partial<AprApartmentStatus>) {
+    return await this.apartmentRepository.create(data);
+  }
+
+  async update(id: number, data: Partial<AprApartmentStatus>) {
+    return await this.apartmentRepository.update(id, data);
+  }
+
+  async delete(id: number) {
+    return await this.apartmentRepository.delete(id);
   }
 }
