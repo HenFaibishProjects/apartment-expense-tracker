@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Apartment } from '../apartments/apartment.entity';
+import { AprApartmentStatus } from '../apartments/apartment.entity';
 
 @Entity()
 export class Expense {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Apartment)
-  apartment: Apartment;
+  @ManyToOne(() => AprApartmentStatus)
+  apartment: AprApartmentStatus;
 
   @Column()
   category: string;

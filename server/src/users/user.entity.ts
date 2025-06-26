@@ -5,8 +5,8 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class User {
+@Entity({ name: 'apartment_user' })
+export class ApartmentUser {
   @PrimaryGeneratedColumn()
   id: number;
 

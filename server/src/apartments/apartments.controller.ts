@@ -1,21 +1,41 @@
-import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { ApartmentsService } from './apartments.service';
-import { CreateApartmentDto } from './dto/create-apartment.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { AprApartmentStatus } from './apartment.entity';
 
 @Controller('apartments')
 export class ApartmentsController {
-  constructor(private readonly service: ApartmentsService) {}
+  constructor(private service: ApartmentsService) {}
 
-  @UseGuards(AuthGuard('jwt'))
-  @Post()
-  create(@Body() dto: CreateApartmentDto) {
-    return this.service.create(dto);
+  @Get()
+  getAll(): Promise<AprApartmentStatus[]> {
+    return this.service.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get()
-  getAll() {
-    return this.service.getAll();
+  @Post()
+  create(@Body() data: Partial<AprApartmentStatus>) {
+    return this.service.create(data);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() data: Partial<AprApartmentStatus>) {
+    return this.service.update(+id, data);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.service.delete(+id);
+  }
+
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.service.findOne(+id);
   }
 }

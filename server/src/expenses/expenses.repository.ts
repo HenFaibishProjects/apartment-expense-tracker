@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Expense } from './expense.entity';
-import { Apartment } from '../apartments/apartment.entity';
+import { AprApartmentStatus } from '../apartments/apartment.entity';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class ExpensesRepository {
   async create(data: CreateExpenseDto): Promise<Expense> {
     const expense = this.repo.create({
       ...data,
-      apartment: { id: data.apartmentId } as Apartment,
+      apartment: { id: data.apartmentId } as AprApartmentStatus,
     });
     return this.repo.save(expense);
   }
