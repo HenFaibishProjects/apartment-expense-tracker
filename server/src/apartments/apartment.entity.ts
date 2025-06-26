@@ -12,7 +12,13 @@ export class AprApartmentStatus {
   id: number | undefined;
 
   @Column()
-  address: string | undefined;
+  addressStreet: string;
+
+  @Column()
+  addressCity: string;
+
+  @Column()
+  addressZipCode: string;
 
   @Column('float')
   size: number | undefined;
