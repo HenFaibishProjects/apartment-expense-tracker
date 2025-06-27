@@ -6,7 +6,7 @@ export enum ApartmentStatus {
   UNDER_CONSTRUCTION = 'UNDER_CONSTRUCTION',
 }
 
-@Entity()
+@Entity({ name: 'apartments_status' })
 export class AprApartmentStatus {
   @PrimaryGeneratedColumn()
   id: number | undefined;
