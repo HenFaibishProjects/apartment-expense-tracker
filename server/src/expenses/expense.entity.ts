@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { AprApartmentStatus } from '../apartments/apartment.entity';
 
 @Entity()
+@Entity({ name: 'apartments_expenses' })
 export class Expense {
   @PrimaryGeneratedColumn()
   id: number;
