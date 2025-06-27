@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AprApartmentStatus } from './apartment.entity';
+import { ApartmentData } from './apartment.entity';
 import { ApartmentRepository } from './apartments.repository';
+import { CreateApartmentDto } from './dto/create-apartment.dto';
 
 @Injectable()
 export class ApartmentsService {
   constructor(
-    @InjectRepository(AprApartmentStatus)
+    @InjectRepository(ApartmentData)
     private apartmentRepository: ApartmentRepository,
   ) {}
 
-  async findAll(): Promise<AprApartmentStatus[]> {
+  async findAll(): Promise<ApartmentData[]> {
     return await this.apartmentRepository.findAll();
   }
 
@@ -18,11 +19,11 @@ export class ApartmentsService {
     return await this.apartmentRepository.findOne(id);
   }
 
-  async create(data: Partial<AprApartmentStatus>) {
-    return await this.apartmentRepository.create(data);
+  async create(dto: CreateApartmentDto) {
+    return await this.apartmentRepository.create(dto);
   }
 
-  async update(id: number, data: Partial<AprApartmentStatus>) {
+  async update(id: number, data: Partial<ApartmentData>) {
     return await this.apartmentRepository.update(id, data);
   }
 

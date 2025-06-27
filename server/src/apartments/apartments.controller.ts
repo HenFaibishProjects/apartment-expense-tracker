@@ -6,27 +6,32 @@ import {
   Param,
   Patch,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApartmentsService } from './apartments.service';
-import { AprApartmentStatus } from './apartment.entity';
+import { ApartmentData } from './apartment.entity';
+import { CreateApartmentDto } from './dto/create-apartment.dto';
 
 @Controller('apartments')
 export class ApartmentsController {
   constructor(private service: ApartmentsService) {}
 
   @Get()
-  getAll(): Promise<AprApartmentStatus[]> {
+  getAll(): Promise<ApartmentData[]> {
     return this.service.findAll();
   }
 
   @Post()
-  create(@Body() data: Partial<AprApartmentStatus>) {
-    return this.service.create(data);
+  create(@Body() dto: CreateApartmentDto) {
+    return this.service.create(dto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: Partial<AprApartmentStatus>) {
-    return this.service.update(+id, data);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: Partial<ApartmentData>,
+  ) {
+    return this.service.update(id, data);
   }
 
   @Delete(':id')

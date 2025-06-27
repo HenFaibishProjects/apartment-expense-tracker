@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { AprApartmentStatus } from '../apartments/apartment.entity';
+import { ApartmentData } from '../apartments/apartment.entity';
 
 @Entity()
 @Entity({ name: 'apartments_expenses' })
@@ -7,8 +7,8 @@ export class Expense {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => AprApartmentStatus)
-  apartment: AprApartmentStatus;
+  @ManyToOne(() => ApartmentData)
+  apartment: ApartmentData;
 
   @Column()
   category: string;

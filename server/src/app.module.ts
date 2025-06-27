@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { ApartmentsModule } from './apartments/apartments.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { AuthModule } from './auth/auth.module';
-import { AprApartmentStatus } from './apartments/apartment.entity';
+import { ApartmentData } from './apartments/apartment.entity';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { AprApartmentStatus } from './apartments/apartment.entity';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([AprApartmentStatus]),
+    TypeOrmModule.forFeature([ApartmentData]),
     UsersModule,
     ApartmentsModule,
     ExpensesModule,
