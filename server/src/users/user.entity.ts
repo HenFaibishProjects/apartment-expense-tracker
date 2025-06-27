@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'apartment_user' })
+@Entity({ name: 'apartments_status' })
 export class ApartmentUser {
   @PrimaryGeneratedColumn()
   id: number;
