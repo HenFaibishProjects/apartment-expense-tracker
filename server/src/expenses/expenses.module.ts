@@ -4,10 +4,10 @@ import { Expense } from './expense.entity';
 import { ExpensesController } from './expenses.controller';
 import { ExpensesService } from './expenses.service';
 import { ExpensesRepository } from './expenses.repository';
-import { AprApartmentStatus } from '../apartments/apartment.entity';
+import { ApartmentData } from '../apartments/apartment.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Expense, AprApartmentStatus])],
+  imports: [TypeOrmModule.forFeature([Expense, ApartmentData])],
   controllers: [ExpensesController],
   providers: [ExpensesService, ExpensesRepository],
 })
