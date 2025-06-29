@@ -57,8 +57,28 @@ export class LoginComponent {
   }
 
 
+  showSuccessModal() {
+    const modalElement = document.getElementById('registrationSuccessModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        this.switchTab('login');
+        const loginTabElement = document.querySelector('#login-tab');
+        if (loginTabElement) {
+          const triggerTab = new bootstrap.Tab(loginTabElement);
+          triggerTab.show();
+        }
+      });
+    } else {
+      alert('✅ Registration successful! Please check your email.');
+      this.switchTab('login');
+    }
+  }
+
   registerSubmit() {
-    // Trim values
+    console.log("clicked");
     const name = this.registerName.trim();
     const email = this.registerEmail.trim();
     const password = this.registerPassword.trim();
@@ -79,41 +99,21 @@ export class LoginComponent {
     }
 
     const payload = {
-      userName: name,
+      fullName: name,
       email: email,
       password: password,
       phone: phone
     };
 
-    this.http.post(`${apiBase}/api/auth/register`, payload).subscribe({
+    this.http.post(`${apiBase}/auth/register`, payload, { responseType: 'text' }).subscribe({
       next: (data) => {
-        // Show Bootstrap modal
-        const modalElement = document.getElementById('registrationSuccessModal');
-        if (modalElement) {
-          const modal = new bootstrap.Modal(modalElement);
-          modal.show();
-
-          // Handle modal close event
-          modalElement.addEventListener('hidden.bs.modal', () => {
-            // Switch to login tab
-            this.switchTab('login');
-
-            // If you're using Bootstrap tabs, you can also trigger the tab programmatically
-            const loginTabElement = document.querySelector('#login-tab');
-            if (loginTabElement) {
-              const triggerTab = new bootstrap.Tab(loginTabElement);
-              triggerTab.show();
-            }
-          });
-        } else {
-          // Fallback if modal doesn't exist
-          alert('✅ Registration successful! Please check your email.');
-          this.switchTab('login');
-        }
+        console.log("Success");
+        this.showSuccessModal();
       },
       error: (err) => {
         const msg = err.error?.message || 'Registration failed';
         this.authMessage = '❌ ' + msg;
+        console.log("error");
       },
     });
   }

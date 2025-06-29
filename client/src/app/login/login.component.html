@@ -633,7 +633,7 @@
               [(ngModel)]="registerPhone"
               placeholder="Enter your phone number"
               required
-              pattern="[0-9]*"
+              pattern="[0-9+ -]*"
               inputmode="numeric"
               (keypress)="allowOnlyNumbers($event)"
             />
@@ -649,7 +649,7 @@
           <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Confirm your password" required />
         </div>
         <div class="error-message" *ngIf="authMessage">{{ authMessage }}</div>
-        <button type="submit" class="btn-primary" [disabled]="!registerForm.form.valid">Create Account</button>
+        <button type="submit" class="btn-primary">Create Account</button>
       </form>
     </div>
 

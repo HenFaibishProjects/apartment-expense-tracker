@@ -19,15 +19,21 @@ export class MailService {
   }
 
   async sendActivationCode(to: string, code: string) {
-    const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+    const baseUrl = process.env.BASE_URL || 'http://localhost:3000/api';
+    const activateUrl = `${baseUrl}/activate?email=${encodeURIComponent(to)}&code=${code}`;
     const mailOptions = {
-      from: '"Benzo Tracker" <zzzi10@gmail.com>',
+      from: '"Real Manager" <zzzi10@gmail.com>',
       to,
       subject: '🔒 Your Activation Code',
-      text: `Welcome to Benzo Tracker!\n\nYour activation code is: ${code}\n\nPlease enter it in the app on this link:\n\n${baseUrl}/activate.html`,
+      text: `Welcome to Real Manager!\n\nYour activation code is: ${code}\n\nClick here to verify:\n${activateUrl}`,
     };
 
-    await this.transporter.sendMail(mailOptions);
+    try {
+      await this.transporter.sendMail(mailOptions);
+      console.log('Email sent successfully');
+    } catch (err) {
+      console.error('❌ Failed to send email:', err);
+    }
   }
 
   async sendPasswordResetEmail(to: string | undefined, token: string) {
