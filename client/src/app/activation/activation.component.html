@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Activate Your Account</h2>
+  <div class="form-group">
+    <label>Email:</label>
+    <input class="form-control" [(ngModel)]="email" type="email" />
+  </div>
+
+  <div class="form-group">
+    <label>Activation Code:</label>
+    <input class="form-control" [(ngModel)]="code" type="text" />
+  </div>
+
+  <button (click)="verifyCode()" [disabled]="isVerifying">Verify</button>
+
+  <p class="result" [ngClass]="{
+  'text-success': result.includes('✅'),
+  'text-danger': result.includes('❌')
+}">
+    {{ result }}
+  </p>
+</div>

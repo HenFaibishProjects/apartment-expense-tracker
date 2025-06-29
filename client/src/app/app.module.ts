@@ -10,16 +10,20 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { LoginModule } from './login/login.module';
 import { FooterModule } from './shared/footer/footer.module';
+import { ActivationComponent } from './activation/activation.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent }
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'activate', component: ActivationComponent }
+
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    ActivationComponent
   ],
   imports: [
     BrowserModule,
