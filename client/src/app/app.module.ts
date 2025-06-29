@@ -7,7 +7,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component'; // adjust path if needed
+import { LoginComponent } from './login/login.component';
+import { LoginModule } from './login/login.module';
+import { FooterModule } from './shared/footer/footer.module';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -17,14 +19,15 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
-    LoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    LoginModule,
+    FooterModule
   ],
   providers: [
     {

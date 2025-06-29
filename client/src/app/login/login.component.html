@@ -1,12 +1,699 @@
-<h2>Login</h2>
+<div class="to-center">
+  <div class="auth-container">
+    <div class="auth-header">
+      <h2>Real Manager</h2>
+      <p>Manage your real estate properties with ease</p>
+    </div>
+
+    <div class="tab-container">
+      <button class="tab-btn" [class.active]="activeTab === 'login'" (click)="switchTab('login')">Login</button>
+      <button class="tab-btn" [class.active]="activeTab === 'register'" (click)="switchTab('register')">Register</button>
+    </div>
+
+    <!-- Login Form -->
+    <div class="tab-content" [class.active]="activeTab === 'login'" *ngIf="activeTab === 'login'">
+      <form (ngSubmit)="loginSubmit()" #loginForm="ngForm">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-control" name="email" [(ngModel)]="loginEmail" placeholder="Enter your email" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" [(ngModel)]="loginPassword" placeholder="Enter your password" required />
+        </div>
+        <div class="error-message" *ngIf="loginError">{{ loginError }}</div>
+        <button type="submit" class="btn-primary" [disabled]="!loginForm.form.valid">Sign In</button>
+      </form>
+      <div class="forgot-password">
+        <a href="#" (click)="switchTab('forgot')">Forgot your password?</a>
+      </div>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="tab-content" [class.active]="activeTab === 'register'" *ngIf="activeTab === 'register'">
+      <form (ngSubmit)="registerSubmit()" #registerForm="ngForm">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" name="name" [(ngModel)]="registerName" placeholder="Enter your full name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-control" name="email" [(ngModel)]="registerEmail" placeholder="Enter your email" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <div style="display: flex; gap: 8px;">
+            <select name="countryCode" class="form-control" style="width: 200px;" [(ngModel)]="selectedCountryCode" required>
+              <option value="+972">+972 (Israel)</option>
+              <option value="+1">+1 (United States)</option>
+              <option value="+44">+44 (UK)</option>
+              <option value="+93">
+                Afghanistan (+93)
+              </option>
+              <option value="+355">
+                Albania (+355)
+              </option>
+              <option value="+213">
+                Algeria (+213)
+              </option>
+              <option value="+376">
+                Andorra (+376)
+              </option>
+              <option value="+244">
+                Angola (+244)
+              </option>
+              <option value="+54">
+                Argentina (+54)
+              </option>
+              <option value="+374">
+                Armenia (+374)
+              </option>
+              <option value="+61">
+                Australia (+61)
+              </option>
+              <option value="+43">
+                Austria (+43)
+              </option>
+              <option value="+994">
+                Azerbaijan (+994)
+              </option>
+              <option value="+1-242">
+                Bahamas (+1-242)
+              </option>
+              <option value="+973">
+                Bahrain (+973)
+              </option>
+              <option value="+880">
+                Bangladesh (+880)
+              </option>
+              <option value="+1-246">
+                Barbados (+1-246)
+              </option>
+              <option value="+375">
+                Belarus (+375)
+              </option>
+              <option value="+32">
+                Belgium (+32)
+              </option>
+              <option value="+501">
+                Belize (+501)
+              </option>
+              <option value="+229">
+                Benin (+229)
+              </option>
+              <option value="+975">
+                Bhutan (+975)
+              </option>
+              <option value="+591">
+                Bolivia (+591)
+              </option>
+              <option value="+387">
+                Bosnia and Herzegovina (+387)
+              </option>
+              <option value="+267">
+                Botswana (+267)
+              </option>
+              <option value="+55">
+                Brazil (+55)
+              </option>
+              <option value="+673">
+                Brunei (+673)
+              </option>
+              <option value="+359">
+                Bulgaria (+359)
+              </option>
+              <option value="+226">
+                Burkina Faso (+226)
+              </option>
+              <option value="+257">
+                Burundi (+257)
+              </option>
+              <option value="+855">
+                Cambodia (+855)
+              </option>
+              <option value="+237">
+                Cameroon (+237)
+              </option>
+              <option value="+1">
+                Canada (+1)
+              </option>
+              <option value="+238">
+                Cape Verde (+238)
+              </option>
+              <option value="+236">
+                Central African Republic (+236)
+              </option>
+              <option value="+235">
+                Chad (+235)
+              </option>
+              <option value="+56">
+                Chile (+56)
+              </option>
+              <option value="+86">
+                China (+86)
+              </option>
+              <option value="+57">
+                Colombia (+57)
+              </option>
+              <option value="+269">
+                Comoros (+269)
+              </option>
+              <option value="+242">
+                Congo (Brazzaville) (+242)
+              </option>
+              <option value="+243">
+                Congo (Kinshasa) (+243)
+              </option>
+              <option value="+506">
+                Costa Rica (+506)
+              </option>
+              <option value="+385">
+                Croatia (+385)
+              </option>
+              <option value="+53">
+                Cuba (+53)
+              </option>
+              <option value="+357">
+                Cyprus (+357)
+              </option>
+              <option value="+420">
+                Czech Republic (+420)
+              </option>
+              <option value="+45">
+                Denmark (+45)
+              </option>
+              <option value="+253">
+                Djibouti (+253)
+              </option>
+              <option value="+1-767">
+                Dominica (+1-767)
+              </option>
+              <option value="+1-809">
+                Dominican Republic (+1-809)
+              </option>
+              <option value="+593">
+                Ecuador (+593)
+              </option>
+              <option value="+20">
+                Egypt (+20)
+              </option>
+              <option value="+503">
+                El Salvador (+503)
+              </option>
+              <option value="+240">
+                Equatorial Guinea (+240)
+              </option>
+              <option value="+291">
+                Eritrea (+291)
+              </option>
+              <option value="+372">
+                Estonia (+372)
+              </option>
+              <option value="+268">
+                Eswatini (+268)
+              </option>
+              <option value="+251">
+                Ethiopia (+251)
+              </option>
+              <option value="+679">
+                Fiji (+679)
+              </option>
+              <option value="+358">
+                Finland (+358)
+              </option>
+              <option value="+33">
+                France (+33)
+              </option>
+              <option value="+241">
+                Gabon (+241)
+              </option>
+              <option value="+220">
+                Gambia (+220)
+              </option>
+              <option value="+995">
+                Georgia (+995)
+              </option>
+              <option value="+49">
+                Germany (+49)
+              </option>
+              <option value="+233">
+                Ghana (+233)
+              </option>
+              <option value="+30">
+                Greece (+30)
+              </option>
+              <option value="+1-473">
+                Grenada (+1-473)
+              </option>
+              <option value="+502">
+                Guatemala (+502)
+              </option>
+              <option value="+224">
+                Guinea (+224)
+              </option>
+              <option value="+245">
+                Guinea-Bissau (+245)
+              </option>
+              <option value="+592">
+                Guyana (+592)
+              </option>
+              <option value="+509">
+                Haiti (+509)
+              </option>
+              <option value="+504">
+                Honduras (+504)
+              </option>
+              <option value="+36">
+                Hungary (+36)
+              </option>
+              <option value="+354">
+                Iceland (+354)
+              </option>
+              <option value="+91">
+                India (+91)
+              </option>
+              <option value="+62">
+                Indonesia (+62)
+              </option>
+              <option value="+98">
+                Iran (+98)
+              </option>
+              <option value="+964">
+                Iraq (+964)
+              </option>
+              <option value="+353">
+                Ireland (+353)
+              </option>
+              <option value="+972">
+                Israel (+972)
+              </option>
+              <option value="+39">
+                Italy (+39)
+              </option>
+              <option value="+1-876">
+                Jamaica (+1-876)
+              </option>
+              <option value="+81">
+                Japan (+81)
+              </option>
+              <option value="+962">
+                Jordan (+962)
+              </option>
+              <option value="+7">
+                Kazakhstan (+7)
+              </option>
+              <option value="+254">
+                Kenya (+254)
+              </option>
+              <option value="+686">
+                Kiribati (+686)
+              </option>
+              <option value="+965">
+                Kuwait (+965)
+              </option>
+              <option value="+996">
+                Kyrgyzstan (+996)
+              </option>
+              <option value="+856">
+                Laos (+856)
+              </option>
+              <option value="+371">
+                Latvia (+371)
+              </option>
+              <option value="+961">
+                Lebanon (+961)
+              </option>
+              <option value="+266">
+                Lesotho (+266)
+              </option>
+              <option value="+231">
+                Liberia (+231)
+              </option>
+              <option value="+218">
+                Libya (+218)
+              </option>
+              <option value="+423">
+                Liechtenstein (+423)
+              </option>
+              <option value="+370">
+                Lithuania (+370)
+              </option>
+              <option value="+352">
+                Luxembourg (+352)
+              </option>
+              <option value="+261">
+                Madagascar (+261)
+              </option>
+              <option value="+265">
+                Malawi (+265)
+              </option>
+              <option value="+60">
+                Malaysia (+60)
+              </option>
+              <option value="+960">
+                Maldives (+960)
+              </option>
+              <option value="+223">
+                Mali (+223)
+              </option>
+              <option value="+356">
+                Malta (+356)
+              </option>
+              <option value="+692">
+                Marshall Islands (+692)
+              </option>
+              <option value="+222">
+                Mauritania (+222)
+              </option>
+              <option value="+230">
+                Mauritius (+230)
+              </option>
+              <option value="+52">
+                Mexico (+52)
+              </option>
+              <option value="+691">
+                Micronesia (+691)
+              </option>
+              <option value="+373">
+                Moldova (+373)
+              </option>
+              <option value="+377">
+                Monaco (+377)
+              </option>
+              <option value="+976">
+                Mongolia (+976)
+              </option>
+              <option value="+382">
+                Montenegro (+382)
+              </option>
+              <option value="+212">
+                Morocco (+212)
+              </option>
+              <option value="+258">
+                Mozambique (+258)
+              </option>
+              <option value="+95">
+                Myanmar (+95)
+              </option>
+              <option value="+264">
+                Namibia (+264)
+              </option>
+              <option value="+674">
+                Nauru (+674)
+              </option>
+              <option value="+977">
+                Nepal (+977)
+              </option>
+              <option value="+31">
+                Netherlands (+31)
+              </option>
+              <option value="+64">
+                New Zealand (+64)
+              </option>
+              <option value="+505">
+                Nicaragua (+505)
+              </option>
+              <option value="+227">
+                Niger (+227)
+              </option>
+              <option value="+234">
+                Nigeria (+234)
+              </option>
+              <option value="+389">
+                North Macedonia (+389)
+              </option>
+              <option value="+47">
+                Norway (+47)
+              </option>
+              <option value="+968">
+                Oman (+968)
+              </option>
+              <option value="+92">
+                Pakistan (+92)
+              </option>
+              <option value="+680">
+                Palau (+680)
+              </option>
+              <option value="+507">
+                Panama (+507)
+              </option>
+              <option value="+675">
+                Papua New Guinea (+675)
+              </option>
+              <option value="+595">
+                Paraguay (+595)
+              </option>
+              <option value="+51">
+                Peru (+51)
+              </option>
+              <option value="+63">
+                Philippines (+63)
+              </option>
+              <option value="+48">
+                Poland (+48)
+              </option>
+              <option value="+351">
+                Portugal (+351)
+              </option>
+              <option value="+974">
+                Qatar (+974)
+              </option>
+              <option value="+40">
+                Romania (+40)
+              </option>
+              <option value="+7">
+                Russia (+7)
+              </option>
+              <option value="+250">
+                Rwanda (+250)
+              </option>
+              <option value="+1-869">
+                Saint Kitts and Nevis (+1-869)
+              </option>
+              <option value="+1-758">
+                Saint Lucia (+1-758)
+              </option>
+              <option value="+1-784">
+                Saint Vincent and the Grenadines (+1-784)
+              </option>
+              <option value="+685">
+                Samoa (+685)
+              </option>
+              <option value="+378">
+                San Marino (+378)
+              </option>
+              <option value="+239">
+                Sao Tome and Principe (+239)
+              </option>
+              <option value="+966">
+                Saudi Arabia (+966)
+              </option>
+              <option value="+221">
+                Senegal (+221)
+              </option>
+              <option value="+381">
+                Serbia (+381)
+              </option>
+              <option value="+248">
+                Seychelles (+248)
+              </option>
+              <option value="+232">
+                Sierra Leone (+232)
+              </option>
+              <option value="+65">
+                Singapore (+65)
+              </option>
+              <option value="+421">
+                Slovakia (+421)
+              </option>
+              <option value="+386">
+                Slovenia (+386)
+              </option>
+              <option value="+677">
+                Solomon Islands (+677)
+              </option>
+              <option value="+252">
+                Somalia (+252)
+              </option>
+              <option value="+27">
+                South Africa (+27)
+              </option>
+              <option value="+82">
+                South Korea (+82)
+              </option>
+              <option value="+211">
+                South Sudan (+211)
+              </option>
+              <option value="+34">
+                Spain (+34)
+              </option>
+              <option value="+94">
+                Sri Lanka (+94)
+              </option>
+              <option value="+249">
+                Sudan (+249)
+              </option>
+              <option value="+597">
+                Suriname (+597)
+              </option>
+              <option value="+46">
+                Sweden (+46)
+              </option>
+              <option value="+41">
+                Switzerland (+41)
+              </option>
+              <option value="+963">
+                Syria (+963)
+              </option>
+              <option value="+886">
+                Taiwan (+886)
+              </option>
+              <option value="+992">
+                Tajikistan (+992)
+              </option>
+              <option value="+255">
+                Tanzania (+255)
+              </option>
+              <option value="+66">
+                Thailand (+66)
+              </option>
+              <option value="+670">
+                Timor-Leste (+670)
+              </option>
+              <option value="+228">
+                Togo (+228)
+              </option>
+              <option value="+676">
+                Tonga (+676)
+              </option>
+              <option value="+1-868">
+                Trinidad and Tobago (+1-868)
+              </option>
+              <option value="+216">
+                Tunisia (+216)
+              </option>
+              <option value="+90">
+                Turkey (+90)
+              </option>
+              <option value="+993">
+                Turkmenistan (+993)
+              </option>
+              <option value="+688">
+                Tuvalu (+688)
+              </option>
+              <option value="+256">
+                Uganda (+256)
+              </option>
+              <option value="+380">
+                Ukraine (+380)
+              </option>
+              <option value="+971">
+                United Arab Emirates (+971)
+              </option>
+              <option value="+44">
+                United Kingdom (+44)
+              </option>
+              <option value="+1">
+                United States (+1)
+              </option>
+              <option value="+598">
+                Uruguay (+598)
+              </option>
+              <option value="+998">
+                Uzbekistan (+998)
+              </option>
+              <option value="+678">
+                Vanuatu (+678)
+              </option>
+              <option value="+379">
+                Vatican City (+379)
+              </option>
+              <option value="+58">
+                Venezuela (+58)
+              </option>
+              <option value="+84">
+                Vietnam (+84)
+              </option>
+              <option value="+967">
+                Yemen (+967)
+              </option>
+              <option value="+260">
+                Zambia (+260)
+              </option>
+              <option value="+263">
+                Zimbabwe (+263)
+              </option>
 
 
-<form (ngSubmit)="login()" #loginForm="ngForm">
-  <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required />
-  <br />
-  <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required />
-  <br />
-  <button type="submit">Login</button>
-</form>
+            </select>
+            <input
+              type="tel"
+              class="form-control phone-number"
+              name="phone"
+              [(ngModel)]="registerPhone"
+              placeholder="Enter your phone number"
+              required
+              pattern="[0-9]*"
+              inputmode="numeric"
+              (keypress)="allowOnlyNumbers($event)"
+            />
+          </div>
+        </div>
 
-<p *ngIf="token">✅ Logged in! Token saved.</p>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" [(ngModel)]="registerPassword" placeholder="Create a password" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Confirm your password" required />
+        </div>
+        <div class="error-message" *ngIf="authMessage">{{ authMessage }}</div>
+        <button type="submit" class="btn-primary" [disabled]="!registerForm.form.valid">Create Account</button>
+      </form>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div class="tab-content" [class.active]="activeTab === 'forgot'" *ngIf="activeTab === 'forgot'">
+      <form (ngSubmit)="forgotPasswordSubmit()" #forgotForm="ngForm">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-control" name="email" [(ngModel)]="forgotEmail" placeholder="Enter your email to reset password" required />
+        </div>
+        <button type="submit" class="btn-primary" [disabled]="!forgotForm.form.valid">Send Reset Link</button>
+      </form>
+      <div class="forgot-password">
+        <a href="#" (click)="switchTab('login')">Back to Login</a>
+      </div>
+    </div>
+
+    <!-- Social Login/Register Buttons (visible for login and register tabs) -->
+    <div *ngIf="activeTab === 'login' || activeTab === 'register'">
+      <div class="divider">
+        <span *ngIf="activeTab === 'login'">or continue with</span>
+        <span *ngIf="activeTab === 'register'">or sign up with</span>
+      </div>
+
+      <button class="social-btn" (click)="handleSocialClick('google')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        <span *ngIf="activeTab === 'login'">Continue with Google</span>
+        <span *ngIf="activeTab === 'register'">Sign up with Google</span>
+      </button>
+
+      <button class="social-btn" (click)="handleSocialClick('facebook')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+        </svg>
+        <span *ngIf="activeTab === 'login'">Continue with Facebook</span>
+        <span *ngIf="activeTab === 'register'">Sign up with Facebook</span>
+      </button>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</div>
