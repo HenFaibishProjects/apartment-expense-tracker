@@ -1,34 +1,176 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { apiBase } from '../../config';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
   standalone: false
 })
 export class LoginComponent {
-  email = '';
-  password = '';
-  token = '';
+  loginEmail = '';
+  loginPassword = '';
+  registerName = '';
+  registerEmail = '';
+  registerPassword = '';
+  confirmPassword = '';
+  forgotEmail = '';
+  authMessage = '';
+  loginError = '';
+  registerPhone = '';
+  selectedCountryCode = '+972';
+  activeTab = 'login';
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  switchTab(tab: string) {
+    this.activeTab = tab;
+    this.loginError = '';
+    this.authMessage = '';
+  }
 
-  login() {
-    console.log('email:' + this.email, '  password:' + this.password);
-    this.http.post<{ access_token: string }>(`${apiBase}/api/auth/login`, {
-      email: this.email,
-      password: this.password,
-    }).subscribe({
-      next: res => {
-        this.token = res.access_token;
+  loginSubmit() {
+    const payload = {
+      email: this.loginEmail,
+      password: this.loginPassword,
+    };
+    this.http.post<any>(`${apiBase}/auth/login`, payload).subscribe({
+      next: (res) => {
         localStorage.setItem('token', res.access_token);
-        this.router.navigate(['/dashboard']);  // Navigate directly to dashboard
+        localStorage.setItem(
+          'user',
+          JSON.stringify({
+            fullName: res.fullName,
+            email: res.email,
+          })
+        );
+        this.router.navigate(['/dashboard']);
       },
-      error: () => alert('Login failed')
+      error: (err) => {
+        this.loginError = err.error?.message || 'Login failed';
+      },
     });
+  }
+
+
+  registerSubmit() {
+    // Trim values
+    const name = this.registerName.trim();
+    const email = this.registerEmail.trim();
+    const password = this.registerPassword.trim();
+    const confirmPassword = this.confirmPassword.trim();
+    const phone = this.registerPhone.trim();
+
+    // Password validation
+    const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+    if (!isValid) {
+      this.authMessage = '❌ Password must be at least 8 characters long and include upper, lower case letters and a number.';
+      return;
+    }
+
+    // Password confirmation check
+    if (password !== confirmPassword) {
+      this.authMessage = '❌ New password and confirmation do not match.';
+      return;
+    }
+
+    const payload = {
+      userName: name,
+      email: email,
+      password: password,
+      phone: phone
+    };
+
+    this.http.post(`${apiBase}/api/auth/register`, payload).subscribe({
+      next: (data) => {
+        // Show Bootstrap modal
+        const modalElement = document.getElementById('registrationSuccessModal');
+        if (modalElement) {
+          const modal = new bootstrap.Modal(modalElement);
+          modal.show();
+
+          // Handle modal close event
+          modalElement.addEventListener('hidden.bs.modal', () => {
+            // Switch to login tab
+            this.switchTab('login');
+
+            // If you're using Bootstrap tabs, you can also trigger the tab programmatically
+            const loginTabElement = document.querySelector('#login-tab');
+            if (loginTabElement) {
+              const triggerTab = new bootstrap.Tab(loginTabElement);
+              triggerTab.show();
+            }
+          });
+        } else {
+          // Fallback if modal doesn't exist
+          alert('✅ Registration successful! Please check your email.');
+          this.switchTab('login');
+        }
+      },
+      error: (err) => {
+        const msg = err.error?.message || 'Registration failed';
+        this.authMessage = '❌ ' + msg;
+      },
+    });
+  }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.charCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  forgotPasswordSubmit() {
+    if (!this.forgotEmail) {
+      alert('Please enter your email.');
+      return;
+    }
+
+    this.http
+      .post('/api/auth/request-reset-password', { email: this.forgotEmail })
+      .subscribe({
+        next: () => {
+          this.router.navigate([
+            '/afterChangePw',
+            { email: this.forgotEmail },
+          ]);
+        },
+        error: () => {
+          alert('❌ Failed to send reset link. Try again.');
+        },
+      });
+  }
+
+  // Social login functions
+  socialLogin(provider: string) {
+    // This will be called when login tab is active
+    console.log(`Social login with ${provider}`);
+    // TODO: Implement your social login logic here
+    // Example: this.authService.socialLogin(provider);
+  }
+
+  socialRegister(provider: string) {
+    // This will be called when register tab is active
+    console.log(`Social register with ${provider}`);
+    // TODO: Implement your social register logic here
+    // Example: this.authService.socialRegister(provider);
+  }
+
+  // Helper method to handle social button clicks
+  handleSocialClick(provider: string) {
+    if (this.activeTab === 'login') {
+      this.socialLogin(provider);
+    } else if (this.activeTab === 'register') {
+      this.socialRegister(provider);
+    }
+  }
+
+  onPhoneValidationChange(isValid: boolean) {
+    console.log('Phone is valid:', isValid);
   }
 }

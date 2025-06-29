@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
 import { ApartmentsModule } from './apartments/apartments.module';
 import { ExpensesModule } from './expenses/expenses.module';
-import { AuthModule } from './auth/auth.module';
 import { ApartmentData } from './apartments/apartment.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,7 +20,6 @@ import { ApartmentData } from './apartments/apartment.entity';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([ApartmentData]),
-    UsersModule,
     ApartmentsModule,
     ExpensesModule,
     AuthModule,
