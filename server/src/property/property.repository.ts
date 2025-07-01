@@ -1,33 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ApartmentData } from './apartment.entity';
-import { CreateApartmentDto } from './dto/create-apartment.dto';
+import { CreatePropertyDto } from './dto/create-property.dto';
+import { PropertyData } from './property.entity';
 
 @Injectable()
-export class ApartmentRepository {
+export class PropertyRepository {
   constructor(
-    @InjectRepository(ApartmentData)
-    private readonly repo: Repository<ApartmentData>,
+    @InjectRepository(PropertyData)
+    private readonly repo: Repository<PropertyData>,
   ) {}
 
-  findAll(): Promise<ApartmentData[]> {
+  findAll(): Promise<PropertyData[]> {
     return this.repo.find({ order: { datePurchase: 'ASC' } });
   }
 
-  findOne(id: number): Promise<ApartmentData | null> {
+  findOne(id: number): Promise<PropertyData | null> {
     return this.repo.findOneBy({ id });
   }
 
-  create(apartment: CreateApartmentDto): Promise<ApartmentData> {
+  create(apartment: CreatePropertyDto): Promise<PropertyData> {
     const newApartment = this.repo.create(apartment);
     return this.repo.save(newApartment);
   }
 
   async update(
     id: number,
-    updateData: Partial<ApartmentData>,
-  ): Promise<ApartmentData | undefined> {
+    updateData: Partial<PropertyData>,
+  ): Promise<PropertyData | undefined> {
     await this.repo.update(id, updateData);
     const updated = await this.repo.findOneBy({ id });
     return updated ?? undefined;

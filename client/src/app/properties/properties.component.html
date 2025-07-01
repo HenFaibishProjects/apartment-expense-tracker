@@ -1,0 +1,150 @@
+<!-- property-management.component.html -->
+<div class="property-management-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="title-section">
+      <h1 class="page-title">
+        <i class="icon-building"></i>
+        Property Management
+      </h1>
+      <p class="page-subtitle">Manage your real estate portfolio</p>
+    </div>
+
+    <div class="header-actions">
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+          placeholder="Search properties..."
+          class="search-input">
+        <i class="search-icon">🔍</i>
+      </div>
+
+      <button class="btn btn-primary add-btn" (click)="openAddModal()">
+        <i class="icon-plus">+</i>
+        Add Property
+      </button>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ properties.length }}</div>
+      <div class="stat-label">Total Properties</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getAvailableCount() }}</div>
+      <div class="stat-label">Available</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getOccupiedCount() }}</div>
+      <div class="stat-label">Occupied</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getOwnedCount() }}</div>
+      <div class="stat-label">Owned</div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="table-container">
+    <div class="table-wrapper">
+      <table class="properties-table">
+        <thead>
+        <tr>
+          <th (click)="sort('nickname')" class="sortable">
+            Nickname
+            <span class="sort-indicator" [class.active]="sortColumn === 'nickname'">
+              {{ sortDirection === 'asc' && sortColumn === 'nickname' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('propertyType')" class="sortable">
+            Type
+            <span class="sort-indicator" [class.active]="sortColumn === 'propertyType'">
+              {{ sortDirection === 'asc' && sortColumn === 'propertyType' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th>Location</th>
+          <th (click)="sort('sizeUtil')" class="sortable">
+            Size (m²)
+            <span class="sort-indicator" [class.active]="sortColumn === 'sizeUtil'">
+              {{ sortDirection === 'asc' && sortColumn === 'sizeUtil' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th>Rooms</th>
+          <th>Property Status</th>
+          <th>Ownership</th>
+          <th>Purchase Date</th>
+          <th class="actions-column">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let property of filteredProperties; trackBy: trackByPropertyId" class="table-row">
+          <td class="nickname-cell">
+            <div class="property-nickname">{{ property.nickname }}</div>
+          </td>
+          <td>
+            <span class="property-type-badge">{{ property.propertyType }}</span>
+          </td>
+          <td class="location-cell">
+            <div class="location-main">{{ property.city }}</div>
+            <div class="location-sub">{{ property.street }} {{ property.blockNumber }}</div>
+            <div class="location-details" *ngIf="property.floor">
+              Floor {{ property.floor }}{{ property.floorsCount ? '/' + property.floorsCount : '' }}
+            </div>
+            <div class="property-address-sub">apartment number: {{ property.apartmentNumber }}</div>
+            <div class="property-address-sub">{{ property.zip }}</div>
+          </td>
+          <td class="size-cell">
+            <div class="size-main">{{ property.sizeUtil }}m²</div>
+            <div class="size-sub" *ngIf="property.sizeYard > 0">
+              Yard: {{ property.sizeYard }}m²
+            </div>
+          </td>
+          <td class="rooms-cell">
+            <div class="rooms-info">
+              <span class="room-item">🛏️ {{ property.bedRooms }}</span>
+              <span class="room-item">🚿 {{ property.bathNumber }}</span>
+            </div>
+            <div class="elevator-info" *ngIf="property.elevator !== 'NOT_REQUIRED'">
+              <h4>🛗 {{ property.elevator }}</h4>
+            </div>
+          </td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusBadgeClass(property.propertyStatus)">
+              {{ property.propertyStatus.replace('_', ' ') }}
+            </span>
+          </td>
+          <td>
+            <span class="ownership-badge" [ngClass]="getOwnershipBadgeClass(property.ownershipStatus)">
+              {{ property.ownershipStatus }}
+            </span>
+          </td>
+          <td class="date-cell">
+            {{ formatDate(property.datePurchase) }}
+          </td>
+          <td class="actions-cell">
+            <div class="action-buttons">
+              <button class="btn btn-sm btn-secondary" (click)="openEditModal(property)" title="Edit">
+                <i class="icon-edit">✏️</i>
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deleteProperty(property.id!)" title="Delete">
+                <i class="icon-delete">🗑️</i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="filteredProperties.length === 0" class="empty-state">
+        <div class="empty-icon">🏠</div>
+        <h3>No properties found</h3>
+        <p>{{ searchTerm ? 'Try adjusting your search criteria' : 'Start by adding your first property' }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

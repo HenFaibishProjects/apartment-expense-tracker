@@ -8,28 +8,28 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-import { ApartmentsService } from './apartments.service';
-import { ApartmentData } from './apartment.entity';
-import { CreateApartmentDto } from './dto/create-apartment.dto';
+import { PropertyData } from './property.entity';
+import { PropertyService } from './property.service';
+import { CreatePropertyDto } from './dto/create-property.dto';
 
 @Controller('apartments')
-export class ApartmentsController {
-  constructor(private service: ApartmentsService) {}
+export class PropertyController {
+  constructor(private service: PropertyService) {}
 
   @Get()
-  getAll(): Promise<ApartmentData[]> {
+  getAll(): Promise<PropertyData[]> {
     return this.service.findAll();
   }
 
   @Post()
-  create(@Body() dto: CreateApartmentDto) {
+  create(@Body() dto: CreatePropertyDto) {
     return this.service.create(dto);
   }
 
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() data: Partial<ApartmentData>,
+    @Body() data: Partial<PropertyData>,
   ) {
     return this.service.update(id, data);
   }
