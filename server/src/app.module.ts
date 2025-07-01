@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { ApartmentsModule } from './apartments/apartments.module';
+import { PropertyModule } from './property/property.module';
 import { ExpensesModule } from './expenses/expenses.module';
-import { ApartmentData } from './apartments/apartment.entity';
 import { AuthModule } from './auth/auth.module';
+import { PropertyData } from './property/property.entity';
 
 @Module({
   imports: [
@@ -19,8 +19,8 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([ApartmentData]),
-    ApartmentsModule,
+    TypeOrmModule.forFeature([PropertyData]),
+    PropertyModule,
     ExpensesModule,
     AuthModule,
   ],
