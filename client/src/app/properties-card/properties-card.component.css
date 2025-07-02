@@ -686,20 +686,3 @@
     font-size: 2rem;
   }
 }
-
-body.modal-open {
-  filter: blur(3px);
-}
-
-body.modal-open .modal {
-  filter: none; /* Ensure modal itself is not blurred */
-}
-
-.property-management-container {
-  transition: filter 0.3s ease;
-}
-
-.property-management-container.modal-blur {
-  filter: blur(3px);
-  pointer-events: none;
-}

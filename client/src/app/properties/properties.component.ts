@@ -78,6 +78,7 @@ export interface PropertyData {
   standalone: false
 })
 export class PropertyManagementComponent implements OnInit {
+  modalVisible = false;
   properties: PropertyData[] = [];
   filteredProperties: PropertyData[] = [];
   propertyForm: FormGroup;
@@ -179,10 +180,22 @@ export class PropertyManagementComponent implements OnInit {
   }
 
   openAddModal() {
-    this.isEditMode = false;
-    this.editingPropertyId = null;
-    this.propertyForm.reset();
-    this.isModalOpen = true;
+    this.modalVisible = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  onModalClose() {
+    this.modalVisible = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  private generateId(): number {
+    return Math.max(0, ...this.properties.map(p => p.id || 0)) + 1;
+  }
+
+  onPropertySave(newProperty: PropertyData) {
+    this.properties.push({ ...newProperty, id: this.generateId() });
+    this.modalVisible = false;
   }
 
   openEditModal(property: PropertyData) {
