@@ -99,8 +99,8 @@ export class PropertyData {
   @Column('float')
   sizeUtil: number;
 
-  @Column('float')
-  sizeYard: number;
+  @Column('float', { nullable: true })
+  sizeYard: number | null;
 
   @Column('float')
   bedRooms: number;
@@ -121,4 +121,7 @@ export class PropertyData {
   @Column({ type: 'date', nullable: true })
   @CreateDateColumn()
   dateOfSell: Date;
+
+  @Column({ nullable: true })
+  zip: string;
 }

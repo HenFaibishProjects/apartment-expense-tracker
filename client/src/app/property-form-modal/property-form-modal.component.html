@@ -1,0 +1,104 @@
+<div class="modal" *ngIf="show">
+  <div class="modal-content">
+    <!-- Header Section -->
+    <div class="modal-header">
+      <h2 class="modal-title">Add Property</h2>
+      <button class="close-button" (click)="onClose()">×</button>
+    </div>
+
+    <!-- Form Content -->
+    <div class="modal-body">
+      <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+
+          <div class="form-field">
+            <input formControlName="nickname" placeholder="Property Nickname" />
+          </div>
+
+          <div class="form-field">
+            <select formControlName="propertyType">
+              <option value="" disabled>Select Property Type</option>
+              <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <select formControlName="ownershipStatus">
+              <option value="" disabled>Select Ownership Status</option>
+              <option *ngFor="let status of ownershipStatuses" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <input formControlName="city" placeholder="City" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="street" placeholder="Street Address" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="blockNumber" placeholder="Block Number" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="floor" placeholder="Floor" type="number" min="0" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="floorsCount" placeholder="Total Floors" type="number" min="1" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="apartmentNumber" placeholder="Apartment Number" />
+          </div>
+
+          <div class="form-field">
+            <select formControlName="elevator">
+              <option value="" disabled>Elevator Available?</option>
+              <option *ngFor="let option of elevatorOptions" [value]="option">{{ option }}</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <input formControlName="sizeUtil" placeholder="Utility Size (m²)" type="number" min="0" step="0.1" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="sizeYard" placeholder="Yard Size (m²)" type="number" min="0" step="0.1" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="bedRooms" placeholder="Bedrooms" type="number" min="0" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="bathNumber" placeholder="Bathrooms" type="number" min="0" />
+          </div>
+
+          <div class="form-field">
+            <select formControlName="propertyStatus">
+              <option value="" disabled>Select Property Status</option>
+              <option *ngFor="let status of propertyStatuses" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <input formControlName="datePurchase" placeholder="Purchase Date" type="date" />
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" (click)="onClose()">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="!propertyForm.valid" (click)="onSubmit()">
+        💾 Save Property
+      </button>
+    </div>
+  </div>
+</div>

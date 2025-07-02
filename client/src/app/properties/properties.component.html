@@ -1,5 +1,5 @@
 <!-- property-management.component.html -->
-<div class="property-management-container">
+<div class="property-management-container" [class.modal-blur]="modalVisible">
   <!-- Header Section -->
   <div class="header-section">
     <div class="title-section">
@@ -20,6 +20,7 @@
           class="search-input">
         <i class="search-icon">🔍</i>
       </div>
+      <!-- REMOVE THE MODAL FROM HERE -->
 
       <button class="btn btn-primary add-btn" (click)="openAddModal()">
         <i class="icon-plus">+</i>
@@ -81,59 +82,34 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let property of filteredProperties; trackBy: trackByPropertyId" class="table-row">
-          <td class="nickname-cell">
-            <div class="property-nickname">{{ property.nickname }}</div>
+        <tr *ngFor="let property of filteredProperties">
+          <td>
+            <app-properties-card [property]="property" section="nickname"></app-properties-card>
           </td>
           <td>
-            <span class="property-type-badge">{{ property.propertyType }}</span>
-          </td>
-          <td class="location-cell">
-            <div class="location-main">{{ property.city }}</div>
-            <div class="location-sub">{{ property.street }} {{ property.blockNumber }}</div>
-            <div class="location-details" *ngIf="property.floor">
-              Floor {{ property.floor }}{{ property.floorsCount ? '/' + property.floorsCount : '' }}
-            </div>
-            <div class="property-address-sub">apartment number: {{ property.apartmentNumber }}</div>
-            <div class="property-address-sub">{{ property.zip }}</div>
-          </td>
-          <td class="size-cell">
-            <div class="size-main">{{ property.sizeUtil }}m²</div>
-            <div class="size-sub" *ngIf="property.sizeYard > 0">
-              Yard: {{ property.sizeYard }}m²
-            </div>
-          </td>
-          <td class="rooms-cell">
-            <div class="rooms-info">
-              <span class="room-item">🛏️ {{ property.bedRooms }}</span>
-              <span class="room-item">🚿 {{ property.bathNumber }}</span>
-            </div>
-            <div class="elevator-info" *ngIf="property.elevator !== 'NOT_REQUIRED'">
-              <h4>🛗 {{ property.elevator }}</h4>
-            </div>
+            <app-properties-card [property]="property" section="type"></app-properties-card>
           </td>
           <td>
-            <span class="status-badge" [ngClass]="getStatusBadgeClass(property.propertyStatus)">
-              {{ property.propertyStatus.replace('_', ' ') }}
-            </span>
+            <app-properties-card [property]="property" section="location"></app-properties-card>
           </td>
           <td>
-            <span class="ownership-badge" [ngClass]="getOwnershipBadgeClass(property.ownershipStatus)">
-              {{ property.ownershipStatus }}
-            </span>
+            <app-properties-card [property]="property" section="size"></app-properties-card>
           </td>
-          <td class="date-cell">
+          <td>
+            <app-properties-card [property]="property" section="rooms"></app-properties-card>
+          </td>
+          <td>
+            {{ property.propertyStatus }}
+          </td>
+          <td>
+            {{ property.ownershipStatus }}
+          </td>
+          <td>
             {{ formatDate(property.datePurchase) }}
           </td>
-          <td class="actions-cell">
-            <div class="action-buttons">
-              <button class="btn btn-sm btn-secondary" (click)="openEditModal(property)" title="Edit">
-                <i class="icon-edit">✏️</i>
-              </button>
-              <button class="btn btn-sm btn-danger" (click)="deleteProperty(property.id!)" title="Delete">
-                <i class="icon-delete">🗑️</i>
-              </button>
-            </div>
+          <td class="actions-column">
+            <button (click)="openEditModal(property)">✏️</button>
+            <button (click)="deleteProperty(property.id!)">🗑️</button>
           </td>
         </tr>
         </tbody>
@@ -146,5 +122,14 @@
       </div>
     </div>
   </div>
-
 </div>
+
+<!-- MOVE THE MODAL HERE - OUTSIDE THE MAIN CONTAINER -->
+<app-property-form-modal
+  [show]="modalVisible"
+  (close)="onModalClose()"
+  (save)="onPropertySave($event)"
+  *ngIf="modalVisible">
+</app-property-form-modal>
+
+<footer></footer>

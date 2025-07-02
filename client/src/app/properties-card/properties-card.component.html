@@ -1,0 +1,39 @@
+<!-- Nickname -->
+<div *ngIf="section === 'nickname'" class="nickname-cell">
+  <div class="property-nickname">{{ property.nickname }}</div>
+</div>
+
+<!-- Type -->
+<div *ngIf="section === 'type'">
+  <span class="property-type-badge">{{ property.propertyType }}</span>
+</div>
+
+<!-- Location -->
+<div *ngIf="section === 'location'" class="location-cell">
+  <div class="location-main">{{ property.city }}</div>
+  <div class="location-sub">{{ property.street }} {{ property.blockNumber }}</div>
+  <div class="location-details" *ngIf="property.floor">
+    Floor {{ property.floor }}{{ property.floorsCount ? '/' + property.floorsCount : '' }}
+  </div>
+  <div class="property-address-sub">apartment number: {{ property.apartmentNumber }}</div>
+  <div class="property-address-sub">{{ property.zip }}</div>
+</div>
+
+<!-- Size -->
+<div *ngIf="section === 'size'" class="size-cell">
+  <div class="size-main">{{ property.sizeUtil }}m²</div>
+  <div class="size-sub" *ngIf="property.sizeYard > 0">
+    Yard: {{ property.sizeYard }}m²
+  </div>
+</div>
+
+<!-- Rooms -->
+<div *ngIf="section === 'rooms'" class="rooms-cell">
+  <div class="rooms-info">
+    <span class="room-item">🛏️ {{ property.bedRooms }}</span>
+    <span class="room-item">🚿 {{ property.bathNumber }}</span>
+  </div>
+  <div class="elevator-info" *ngIf="property.elevator !== 'NOT_REQUIRED'">
+    <h4>🛗 {{ property.elevator }}</h4>
+  </div>
+</div>

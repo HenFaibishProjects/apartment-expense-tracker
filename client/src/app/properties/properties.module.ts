@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { PropertyManagementComponent } from './properties.component';
+import { PropertiesCardComponent } from '../properties-card/properties-card.component';
+import { PropertyFormModalComponent } from '../property-form-modal/property-form-modal.component';
 
 @NgModule({
   declarations: [PropertyManagementComponent],
@@ -15,6 +17,8 @@ import { PropertyManagementComponent } from './properties.component';
     ReactiveFormsModule,
     RouterModule,
     FooterComponent,
+    PropertiesCardComponent,
+    PropertyFormModalComponent,
 
   ],
   exports: [PropertyManagementComponent],
