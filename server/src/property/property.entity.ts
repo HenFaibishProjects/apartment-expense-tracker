@@ -2,8 +2,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
+  CreateDateColumn, ManyToOne,
 } from 'typeorm';
+import { ApartmentUser } from '../auth/user.entity';
 
 export enum PropertyStatus {
   AVAILABLE = 'AVAILABLE',
@@ -123,5 +124,8 @@ export class PropertyData {
   dateOfSell: Date;
 
   @Column({ nullable: true })
-  zip: string;
+  zip: number;
+
+  @ManyToOne(() => ApartmentUser, user => user.properties, { onDelete: 'CASCADE' })
+  user: ApartmentUser;
 }

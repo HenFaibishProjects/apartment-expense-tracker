@@ -69,4 +69,8 @@ export class CreatePropertyDto {
   @IsOptional()
   @IsDateString()
   datePurchase?: Date;
+
+  @IsOptional()
+  @IsNumber()
+  zip: number;
 }

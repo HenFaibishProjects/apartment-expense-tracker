@@ -1,9 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { PropertyData } from '../property/property.entity';
+
 
 @Entity({ name: 'apartments_users' })
 export class ApartmentUser {
@@ -39,4 +36,9 @@ export class ApartmentUser {
 
   @Column({ nullable: true, type: 'timestamp' })
   resetTokenExpiry: Date | undefined | null;
+
+  @OneToMany(() => PropertyData, property => property.user)
+  properties: PropertyData[];
 }
+
+

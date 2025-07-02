@@ -337,4 +337,6 @@ export class PropertyManagementComponent implements OnInit {
   trackByPropertyId(index: number, property: PropertyData): number {
     return property.id!;
   }
+
+
 }
