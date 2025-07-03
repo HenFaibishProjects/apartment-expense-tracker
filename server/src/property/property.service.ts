@@ -1,31 +1,48 @@
 import { Injectable } from '@nestjs/common';
-import { PropertyRepository } from './property.repository';
 import { PropertyData } from './property.entity';
 import { CreatePropertyDto } from './dto/create-property.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ApartmentUser } from '../auth/user.entity';
 
 @Injectable()
 export class PropertyService {
   constructor(
-    private propertyRepository: PropertyRepository,
+  @InjectRepository(PropertyData)
+  private propertyRepository: Repository<PropertyData>,
+  @InjectRepository(ApartmentUser)
+  private userRepository: Repository<ApartmentUser>
   ) {}
 
-  async findAll(): Promise<PropertyData[]> {
-    return await this.propertyRepository.findAll();
+
+  async findAll(userId: number) {
+    return await this.propertyRepository.find({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+      relations: ['user'],
+    });
   }
 
-  async findOne(id: number) {
-    return await this.propertyRepository.findOne(id);
+  async create(dto: CreatePropertyDto, userId: number) {
+    const user = await this.userRepository.findOneByOrFail({ id: userId }); // Make sure you inject userRepository
+
+    const entry = this.propertyRepository.create({
+      ...dto,
+      user
+    });
+
+    return await this.propertyRepository.save(entry);
   }
 
-  async create(dto: CreatePropertyDto) {
-    return await this.propertyRepository.create(dto);
-  }
 
-  async update(id: number, data: Partial<PropertyData>) {
-    return await this.propertyRepository.update(id, data);
-  }
-
-  async delete(id: number) {
-    return await this.propertyRepository.delete(id);
-  }
+  // async update(id: number, data: Partial<PropertyData>) {
+  //   return await this.propertyRepository.update(id, data);
+  // }
+  //
+  // async delete(id: number) {
+  //   return await this.propertyRepository.delete(id);
+  // }
 }

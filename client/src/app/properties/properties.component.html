@@ -129,7 +129,9 @@
   [show]="modalVisible"
   (close)="onModalClose()"
   (save)="onPropertySave($event)"
+  (propertySaved)="getAllProperties()"
   *ngIf="modalVisible">
 </app-property-form-modal>
+
 
 <footer></footer>

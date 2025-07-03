@@ -63,6 +63,9 @@ export class CreatePropertyDto {
   @IsNumber()
   bathNumber: number;
 
+  @IsNumber()
+  userId: number;
+
   @IsEnum(PropertyStatus)
   propertyStatus: PropertyStatus;
 
