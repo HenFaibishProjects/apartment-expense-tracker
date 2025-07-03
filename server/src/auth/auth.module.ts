@@ -14,7 +14,7 @@ import { ApartmentUser } from './user.entity';
     TypeOrmModule.forFeature([ApartmentUser]),
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'default-secret-key',
+      secret: process.env.JWT_SECRET || 'secret-key',
       signOptions: { expiresIn: '7d' },
     }),
   ],

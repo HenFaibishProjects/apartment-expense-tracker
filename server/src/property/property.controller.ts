@@ -6,11 +6,12 @@ import {
   Param,
   Patch,
   Delete,
-  ParseIntPipe,
+  ParseIntPipe, UseGuards,
 } from '@nestjs/common';
 import { PropertyData } from './property.entity';
 import { PropertyService } from './property.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('properties')
 export class PropertyController {
@@ -21,8 +22,10 @@ export class PropertyController {
     return this.service.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() dto: CreatePropertyDto) {
+    console.log('🔍 Controller - Request reached the controller'); // Add this line
     return this.service.create(dto);
   }
 
