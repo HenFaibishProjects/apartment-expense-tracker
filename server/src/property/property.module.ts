@@ -5,9 +5,10 @@ import { PropertyService } from './property.service';
 import { PropertyRepository } from './property.repository';
 import { PropertyData } from './property.entity';
 import { ApartmentUser } from '../auth/user.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ApartmentUser, PropertyData])],
+  imports: [AuthModule, TypeOrmModule.forFeature([ApartmentUser, PropertyData])],
   controllers: [PropertyController],
   providers: [PropertyService, PropertyRepository]
 })

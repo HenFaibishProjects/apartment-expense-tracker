@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ElevatorPresence, OwnershipStatus, PropertyStatus, PropertyType } from '../properties/properties.component';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiBase } from '../../config';
+import { ElevatorPresence, OwnershipStatus, PropertyStatus, PropertyType } from '../models/property.model';
 
 @Component({
   selector: 'app-property-form-modal',
@@ -49,8 +49,9 @@ export class PropertyFormModalComponent {
     });
   }
 
+
   onSubmit() {
-    if (1===1) {
+    if (this.propertyForm.valid) {
       const formData = this.propertyForm.value;
 
       const payload = {
@@ -61,28 +62,36 @@ export class PropertyFormModalComponent {
         sizeYard: +formData.sizeYard,
         bedRooms: +formData.bedRooms,
         bathNumber: +formData.bathNumber,
-        zip: formData.zip ? +formData.zip : null,
-        datePurchase: formData.datePurchase ? new Date(formData.datePurchase).toISOString() : null,
+        zip: formData.zip ? +formData.zip : null, // Assuming formData.zipCode maps to payload.zip
+        datePurchase: formData.datePurchase
+          ? new Date(formData.datePurchase).toISOString()
+          : null,
       };
-      console.log('🚨 elevator raw form value:', this.propertyForm.get('elevator')?.value);
-      console.log('🚨 payload elevator value:', payload.elevator);
-      console.log("payload: " + JSON.stringify(payload));
-      this.http.post(`${apiBase}/properties`, payload).subscribe({
+
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      });
+
+      this.http.post(`${apiBase}/properties`, payload, { headers }).subscribe({
         next: () => {
           this.propertyForm.reset();
-          this.close.emit(); // close modal
+          this.close.emit();
         },
-        error: err => {
+        error: (err) => {
           console.error('Failed to save property', err);
+          if (err.status === 401) {
+            alert('❌ You must be logged in to perform this action.');
+          } else {
+            alert('❌ Failed to save property. Please try again later.');
+          }
         }
       });
     }
   }
 
-
   onClose() {
     this.close.emit();
   }
-
-
 }

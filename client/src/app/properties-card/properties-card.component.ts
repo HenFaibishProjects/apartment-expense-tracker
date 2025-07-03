@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { PropertyData } from '../properties/properties.component';
 import { NgIf } from '@angular/common';
+import { PropertyData } from '../models/property.model';
 
 @Component({
   selector: 'app-properties-card',
