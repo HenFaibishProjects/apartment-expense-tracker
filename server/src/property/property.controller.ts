@@ -12,7 +12,7 @@ import { PropertyData } from './property.entity';
 import { PropertyService } from './property.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 
-@Controller('apartments')
+@Controller('properties')
 export class PropertyController {
   constructor(private service: PropertyService) {}
 

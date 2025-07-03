@@ -340,3 +340,9 @@
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+.error-msg {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

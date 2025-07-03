@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { PropertyRepository } from './property.repository';
 import { PropertyData } from './property.entity';
 import { CreatePropertyDto } from './dto/create-property.dto';
@@ -7,7 +6,6 @@ import { CreatePropertyDto } from './dto/create-property.dto';
 @Injectable()
 export class PropertyService {
   constructor(
-    @InjectRepository(PropertyData)
     private propertyRepository: PropertyRepository,
   ) {}
 

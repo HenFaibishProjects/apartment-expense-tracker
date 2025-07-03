@@ -13,6 +13,9 @@
 
           <div class="form-field">
             <input formControlName="nickname" placeholder="Property Nickname" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
@@ -20,6 +23,9 @@
               <option value="" disabled>Select Property Type</option>
               <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
             </select>
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
@@ -27,18 +33,34 @@
               <option value="" disabled>Select Ownership Status</option>
               <option *ngFor="let status of ownershipStatuses" [value]="status">{{ status }}</option>
             </select>
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
             <input formControlName="city" placeholder="City" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
             <input formControlName="street" placeholder="Street Address" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
-            <input formControlName="blockNumber" placeholder="Block Number" />
+            <input formControlName="zipCode" placeholder="Zip Code" />
+          </div>
+
+          <div class="form-field">
+            <input formControlName="blockNumber" placeholder="Block/House Number" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
@@ -55,13 +77,19 @@
 
           <div class="form-field">
             <select formControlName="elevator">
-              <option value="" disabled>Elevator Available?</option>
-              <option *ngFor="let option of elevatorOptions" [value]="option">{{ option }}</option>
+              <option [ngValue]="null"  disabled>Elevator Available?</option>
+              <option *ngFor="let option of elevatorOptions" [ngValue]="option">{{ option }}</option>
+              <div class="error-msg">
+                *required
+              </div>
             </select>
           </div>
 
           <div class="form-field">
             <input formControlName="sizeUtil" placeholder="Utility Size (m²)" type="number" min="0" step="0.1" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
@@ -70,10 +98,16 @@
 
           <div class="form-field">
             <input formControlName="bedRooms" placeholder="Bedrooms" type="number" min="0" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
             <input formControlName="bathNumber" placeholder="Bathrooms" type="number" min="0" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
@@ -81,10 +115,16 @@
               <option value="" disabled>Select Property Status</option>
               <option *ngFor="let status of propertyStatuses" [value]="status">{{ status }}</option>
             </select>
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
           <div class="form-field">
             <input formControlName="datePurchase" placeholder="Purchase Date" type="date" />
+            <div class="error-msg">
+              *required
+            </div>
           </div>
 
         </div>
