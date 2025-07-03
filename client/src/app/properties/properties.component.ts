@@ -1,13 +1,12 @@
-// property-management.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  ElevatorPresence,
   OwnershipStatus,
   PropertyData,
   PropertyStatus,
-  PropertyType,
 } from '../models/property.model';
+import { apiBase } from '../../config';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-property-management',
@@ -28,7 +27,7 @@ export class PropertyManagementComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.propertyForm = this.fb.group({
       nickname: ['', [Validators.required, Validators.minLength(2)]],
       ownershipStatus: ['', Validators.required],
@@ -57,50 +56,8 @@ export class PropertyManagementComponent implements OnInit {
   }
 
   loadSampleData() {
-    this.properties = [
-      {
-        id: 1,
-        nickname: 'Downtown Apartment',
-        ownershipStatus: OwnershipStatus.OWNED,
-        propertyType: PropertyType.APARTMENT,
-        city: 'Tel Aviv',
-        street: 'Rothschild Blvd',
-        blockNumber: '15',
-        floor: 3,
-        floorsCount: 8,
-        apartmentNumber: '12',
-        elevator: ElevatorPresence.YES,
-        sizeUtil: 85.5,
-        sizeYard: 0,
-        bedRooms: 2,
-        bathNumber: 1,
-        propertyStatus: PropertyStatus.OCCUPIED,
-        datePurchase: new Date('2020-05-15'),
-        dateOfSell: null,
-        zip: 774242
-      },
-      {
-        id: 2,
-        nickname: 'Seaside Villa',
-        ownershipStatus: OwnershipStatus.MORTGAGED,
-        propertyType: PropertyType.VILLA,
-        city: 'Herzliya',
-        street: 'Beach Road',
-        blockNumber: '42',
-        floor: null,
-        floorsCount: 2,
-        apartmentNumber: '1',
-        elevator: ElevatorPresence.NOT_REQUIRED,
-        sizeUtil: 180,
-        sizeYard: 150,
-        bedRooms: 4,
-        bathNumber: 3,
-        propertyStatus: PropertyStatus.AVAILABLE,
-        datePurchase: new Date('2022-01-10'),
-        dateOfSell: null,
-        zip: 338982
-      }
-    ];
+    //this.properties = []
+    this.getAllProperties();
     this.filteredProperties = [...this.properties];
   }
 
@@ -272,4 +229,27 @@ export class PropertyManagementComponent implements OnInit {
   }
 
 
+  public getAllProperties() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    this.http.get<PropertyData[]>(`${apiBase}/properties`, { headers }).subscribe({
+      next: (data) => {
+        this.properties = data;
+        this.filteredProperties = [...data];
+        this.applyFilters();
+      },
+      error: (err) => {
+        console.error('Failed to get property list', err);
+        if (err.status === 401) {
+          alert('❌ You must be logged in to perform this action.');
+        } else {
+          alert('❌ Failed to get properties list. Please try again later.');
+        }
+      }
+    });
+  }
 }

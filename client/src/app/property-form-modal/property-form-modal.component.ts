@@ -19,6 +19,8 @@ export class PropertyFormModalComponent {
   @Input() show = false;
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
+  @Output() propertySaved = new EventEmitter<void>();
+
 
   propertyForm: FormGroup;
 
@@ -78,6 +80,7 @@ export class PropertyFormModalComponent {
         next: () => {
           this.propertyForm.reset();
           this.close.emit();
+          this.propertySaved.emit();
         },
         error: (err) => {
           console.error('Failed to save property', err);
