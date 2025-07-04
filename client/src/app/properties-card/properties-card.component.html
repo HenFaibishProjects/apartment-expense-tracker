@@ -10,30 +10,35 @@
 
 <!-- Location -->
 <div *ngIf="section === 'location'" class="location-cell">
-  <div class="location-main">{{ property.city }}</div>
-  <div class="location-sub">{{ property.street }} {{ property.blockNumber }}</div>
-  <div class="location-details" *ngIf="property.floor">
-    Floor {{ property.floor }}{{ property.floorsCount ? '/' + property.floorsCount : '' }}
+  <div class="location-main"><strong>City:</strong> {{ property.city }}</div>
+  <div class="location-main"><strong>Street:</strong> {{ property.street }} {{ property.blockNumber }}</div>
+  <div class="location-main" *ngIf="property.floor">
+    <strong>Floor:</strong> {{ property.floor }}{{ property.floorsCount ? '/' + property.floorsCount : '' }}
   </div>
-  <div class="property-address-sub">apartment number: {{ property.apartmentNumber }}</div>
-  <div class="property-address-sub">{{ property.zip }}</div>
+  <div class="location-main"><strong>Apartment Number:</strong> {{ property.apartmentNumber }}</div>
+  <div class="location-main"><strong>Zip Code:</strong> {{ property.zip }}</div>
 </div>
 
 <!-- Size -->
 <div *ngIf="section === 'size'" class="size-cell">
-  <div class="size-main">{{ property.sizeUtil }}m²</div>
-  <div class="size-sub" *ngIf="property.sizeYard > 0">
-    Yard: {{ property.sizeYard }}m²
-  </div>
+  <div class="size-main"><strong>Util Size:</strong> {{ property.sizeUtil }}m²</div>
+  <div *ngIf="property.sizeYard > 0" class="size-main"><strong>Yard Size:</strong> {{ property.sizeYard }}m²</div>
 </div>
 
 <!-- Rooms -->
-<div *ngIf="section === 'rooms'" class="rooms-cell">
-  <div class="rooms-info">
-    <span class="room-item">🛏️ {{ property.bedRooms }}</span>
-    <span class="room-item">🚿 {{ property.bathNumber }}</span>
+<div *ngIf="section === 'rooms'" class="rooms-cell" style="display: flex; flex-direction: column;">
+  <div class="room-item" style="margin-bottom: 4px;">
+    <strong>🛏️ BedRooms:</strong> <span style="font-weight: normal;">{{ property.bedRooms }}</span>
   </div>
-  <div class="elevator-info" *ngIf="property.elevator !== 'NOT_REQUIRED'">
-    <h4>🛗 {{ property.elevator }}</h4>
+  <div class="room-item" style="margin-bottom: 4px;">
+    <strong>🚿 Showers:</strong> <span style="font-weight: normal;">{{ property.bathNumber }}</span>
+  </div>
+  <div class="room-item" style="margin-bottom: 4px;">
+    <strong>🚽 Toilets:</strong> <span style="font-weight: normal;">{{ property.toilets }}</span>
+  </div>
+
+  <div class="room-item" *ngIf="property.elevator !== 'NOT_REQUIRED'" style="margin-top: 6px;">
+    <strong>🛗 Elevator:</strong> <span style="font-weight: normal;">{{ property.elevator }}</span>
   </div>
 </div>
+

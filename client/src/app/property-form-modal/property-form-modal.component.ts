@@ -45,9 +45,10 @@ export class PropertyFormModalComponent {
       sizeYard: [0],
       bedRooms: [null, Validators.required],
       bathNumber: [null, Validators.required],
+      toilets: [null, Validators.required],
       propertyStatus: ['', Validators.required],
       datePurchase: ['', Validators.required],
-      zipCode: [null]
+      zip: [null]
     });
   }
 
@@ -64,12 +65,13 @@ export class PropertyFormModalComponent {
         sizeYard: +formData.sizeYard,
         bedRooms: +formData.bedRooms,
         bathNumber: +formData.bathNumber,
-        zip: formData.zip ? +formData.zip : null, // Assuming formData.zipCode maps to payload.zip
+        toilets: +formData.toilets,
+        zip: formData.zip ? +formData.zip : null,
         datePurchase: formData.datePurchase
           ? new Date(formData.datePurchase).toISOString()
           : null,
       };
-
+      console.log("ziiiiiiiiiiiiiip" , payload.zip)
       const token = localStorage.getItem('token');
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${token}`,

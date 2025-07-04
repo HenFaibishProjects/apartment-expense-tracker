@@ -62,6 +62,7 @@ export interface PropertyData {
   sizeYard: number;
   bedRooms: number;
   bathNumber: number;
+  toilets: number;
   propertyStatus: PropertyStatus;
   datePurchase: Date | null;
   dateOfSell: Date | null;

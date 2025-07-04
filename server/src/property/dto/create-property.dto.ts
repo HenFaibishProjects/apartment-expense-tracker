@@ -61,6 +61,9 @@ export class CreatePropertyDto {
   bedRooms: number;
 
   @IsNumber()
+  toilets: number;
+
+  @IsNumber()
   bathNumber: number;
 
   @IsNumber()

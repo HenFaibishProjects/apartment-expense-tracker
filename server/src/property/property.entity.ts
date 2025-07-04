@@ -126,6 +126,10 @@ export class PropertyData {
   @Column({ nullable: true })
   zip: number;
 
+  @Column('float')
+  toilets: number;
+
+
   @ManyToOne(() => ApartmentUser, user => user.properties, { onDelete: 'CASCADE' })
   user: ApartmentUser;
 }

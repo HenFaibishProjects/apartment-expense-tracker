@@ -46,7 +46,8 @@ export class PropertyManagementComponent implements OnInit {
       propertyStatus: ['', Validators.required],
       datePurchase: [null],
       dateOfSell: [null],
-      zip:312335
+      zip:312335,
+      toilets: [0, [Validators.required, Validators.min(0)]]
     });
   }
 
