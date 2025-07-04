@@ -294,7 +294,7 @@
 }
 
 .size-cell {
-  text-align: right;
+  text-align: left;
 }
 
 .size-main {
@@ -685,4 +685,8 @@
   .stat-value {
     font-size: 2rem;
   }
+}
+
+.rooms-info .room-item {
+  margin-bottom: 4px;
 }
