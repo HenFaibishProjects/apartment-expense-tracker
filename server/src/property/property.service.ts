@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PropertyData } from './property.entity';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { Repository } from 'typeorm';
@@ -42,7 +42,13 @@ export class PropertyService {
   //   return await this.propertyRepository.update(id, data);
   // }
   //
-  // async delete(id: number) {
-  //   return await this.propertyRepository.delete(id);
-  // }
+
+  async delete(id: number) {
+    const property = await this.propertyRepository.findOne({ where: { id } });
+    if (!property) {
+      throw new NotFoundException(`Property with ID ${id} not found`);
+    }
+
+    return this.propertyRepository.delete(id);
+  }
 }

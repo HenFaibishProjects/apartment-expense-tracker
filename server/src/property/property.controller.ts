@@ -34,6 +34,12 @@ export class PropertyController {
     return this.service.create(dto, req.user.id!);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.service.delete(+id);
+  }
+
   // @Patch(':id')
   // update(
   //   @Param('id', ParseIntPipe) id: number,
@@ -42,8 +48,5 @@ export class PropertyController {
   //   return this.service.update(id, data);
   // }
   //
-  // @Delete(':id')
-  // delete(@Param('id') id: string) {
-  //   return this.service.delete(+id);
-  // }
+
 }

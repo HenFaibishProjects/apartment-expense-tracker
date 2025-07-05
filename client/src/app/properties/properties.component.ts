@@ -130,7 +130,31 @@ export class PropertyManagementComponent implements OnInit {
   }
 
   deleteProperty(id: number) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
     if (confirm('Are you sure you want to delete this property?')) {
+      this.http.delete(`${apiBase}/properties/${id}`, { headers }).subscribe({
+        next: () => {
+          this.propertyForm.reset();
+          this.properties = this.properties.filter(p => p.id !== id);
+          this.applyFilters();
+        },
+        error: (err) => {
+          console.error('Failed to save property', err);
+          if (err.status === 401) {
+            alert('❌ You must be logged in to perform this action.');
+          } else {
+            alert('❌ Failed to delete property. Please try again later.');
+          }
+        }
+      });
+
+
+
+
       this.properties = this.properties.filter(p => p.id !== id);
       this.applyFilters();
     }
