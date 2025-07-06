@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   OwnershipStatus,
@@ -22,6 +23,7 @@ export class PropertyManagementComponent implements OnInit {
   isModalOpen = false;
   isEditMode = false;
   editingPropertyId: number | null = null;
+  selectedProperty: PropertyData | null = null;
   searchTerm = '';
   sortColumn = '';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -71,9 +73,13 @@ export class PropertyManagementComponent implements OnInit {
   }
 
   openAddModal() {
+    this.isEditMode = false;
+    this.editingPropertyId = null;
+    this.selectedProperty = null;
     this.modalVisible = true;
     document.body.style.overflow = 'hidden';
   }
+
 
   onModalClose() {
     this.modalVisible = false;
@@ -92,13 +98,14 @@ export class PropertyManagementComponent implements OnInit {
   openEditModal(property: PropertyData) {
     this.isEditMode = true;
     this.editingPropertyId = property.id!;
-    this.propertyForm.patchValue({
+    this.selectedProperty = {
       ...property,
-      datePurchase: property.datePurchase ? this.formatDateForInput(property.datePurchase) : null,
-      dateOfSell: property.dateOfSell ? this.formatDateForInput(property.dateOfSell) : null
-    });
-    this.isModalOpen = true;
+      datePurchase: property.datePurchase ? new Date(property.datePurchase) : null
+    };
+    this.modalVisible = true;
+    document.body.style.overflow = 'hidden';
   }
+
 
   closeModal() {
     this.isModalOpen = false;
@@ -145,9 +152,18 @@ export class PropertyManagementComponent implements OnInit {
         error: (err) => {
           console.error('Failed to save property', err);
           if (err.status === 401) {
-            alert('❌ You must be logged in to perform this action.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Authentication Required',
+              text: 'You must be logged in to perform this action.',
+            });
+
           } else {
-            alert('❌ Failed to delete property. Please try again later.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed to delete property.',
+              text: 'Please try again later.',
+            });
           }
         }
       });
@@ -270,9 +286,18 @@ export class PropertyManagementComponent implements OnInit {
       error: (err) => {
         console.error('Failed to get property list', err);
         if (err.status === 401) {
-          alert('❌ You must be logged in to perform this action.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Authentication Required',
+            text: 'You must be logged in to perform this action.',
+          });
+
         } else {
-          alert('❌ Failed to get properties list. Please try again later.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed to get properties list',
+            text: 'Please try again later.',
+          });
         }
       }
     });

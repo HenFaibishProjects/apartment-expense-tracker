@@ -37,11 +37,17 @@ export class PropertyService {
     return await this.propertyRepository.save(entry);
   }
 
+  async update(id: number, data: Partial<PropertyData>) {
+    const property = await this.propertyRepository.findOneByOrFail({ id });
 
-  // async update(id: number, data: Partial<PropertyData>) {
-  //   return await this.propertyRepository.update(id, data);
-  // }
-  //
+    const updated = this.propertyRepository.merge(property, {
+      ...data,
+      user: property.user
+    });
+
+    return await this.propertyRepository.save(updated);
+  }
+
 
   async delete(id: number) {
     const property = await this.propertyRepository.findOne({ where: { id } });

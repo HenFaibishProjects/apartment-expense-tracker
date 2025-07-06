@@ -4,9 +4,8 @@ import {
   Post,
   Body,
   Param,
-  Patch,
   Delete,
-  ParseIntPipe, UseGuards, Req,
+  UseGuards, Req, Put,
 } from '@nestjs/common';
 import { PropertyData } from './property.entity';
 import { PropertyService } from './property.service';
@@ -40,13 +39,11 @@ export class PropertyController {
     return this.service.delete(+id);
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id', ParseIntPipe) id: number,
-  //   @Body() data: Partial<PropertyData>,
-  // ) {
-  //   return this.service.update(id, data);
-  // }
-  //
-
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() data: Partial<PropertyData>
+  ) {
+    return this.service.update(+id, data);
+  }
 }
