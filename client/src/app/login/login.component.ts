@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { apiBase } from '../../config';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
@@ -72,8 +73,11 @@ export class LoginComponent {
         }
       });
     } else {
-      alert('✅ Registration successful! Please check your email.');
-      this.switchTab('login');
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Successful!',
+        text: 'Please check your email to verify your account.'
+      })
     }
   }
 
@@ -127,7 +131,12 @@ export class LoginComponent {
 
   forgotPasswordSubmit() {
     if (!this.forgotEmail) {
-      alert('Please enter your email.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Input Required',
+        text: 'Please enter your email.',
+        confirmButtonText: 'Got it'
+      });
       return;
     }
 
@@ -141,7 +150,12 @@ export class LoginComponent {
           ]);
         },
         error: () => {
-          alert('❌ Failed to send reset link. Try again.');
+          Swal.fire({
+            icon: 'error', // Use the 'error' icon for a failed operation
+            title: 'Failed to Send',
+            text: 'Failed to send reset link. Please try again.',
+            confirmButtonText: 'OK, Got It'
+          });
         },
       });
   }
@@ -173,4 +187,5 @@ export class LoginComponent {
   onPhoneValidationChange(isValid: boolean) {
     console.log('Phone is valid:', isValid);
   }
+
 }

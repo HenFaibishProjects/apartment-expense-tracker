@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiBase } from '../../config';
 import { ElevatorPresence, OwnershipStatus, PropertyStatus, PropertyType } from '../models/property.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-property-form-modal',
@@ -15,12 +16,12 @@ import { ElevatorPresence, OwnershipStatus, PropertyStatus, PropertyType } from 
   ],
   standalone: true
 })
-export class PropertyFormModalComponent {
+export class PropertyFormModalComponent implements OnInit {
   @Input() show = false;
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
   @Output() propertySaved = new EventEmitter<void>();
-
+  @Input() initialData?: any;
 
   propertyForm: FormGroup;
 
@@ -29,7 +30,7 @@ export class PropertyFormModalComponent {
   elevatorOptions = Object.values(ElevatorPresence);
   propertyStatuses = Object.values(PropertyStatus);
 
-  constructor(private fb: FormBuilder, private http: HttpClient ) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.propertyForm = this.fb.group({
       nickname: ['', Validators.required],
       propertyType: ['', Validators.required],
@@ -52,6 +53,32 @@ export class PropertyFormModalComponent {
     });
   }
 
+  ngOnInit() {
+    if (this.initialData) {
+      // Format the date properly for the date input
+      const formattedData = {
+        ...this.initialData,
+        datePurchase: this.initialData.datePurchase
+          ? this.formatDateForInput(this.initialData.datePurchase)
+          : ''
+      };
+
+      this.propertyForm.patchValue(formattedData);
+    }
+  }
+
+  // Helper method to format date for HTML date input
+  private formatDateForInput(date: Date | string | null): string {
+    if (!date) return '';
+
+    const dateObj = date instanceof Date ? date : new Date(date);
+
+    // Check if date is valid
+    if (isNaN(dateObj.getTime())) return '';
+
+    // Format to YYYY-MM-DD
+    return dateObj.toISOString().split('T')[0];
+  }
 
   onSubmit() {
     if (this.propertyForm.valid) {
@@ -71,25 +98,53 @@ export class PropertyFormModalComponent {
           ? new Date(formData.datePurchase).toISOString()
           : null,
       };
-      console.log("ziiiiiiiiiiiiiip" , payload.zip)
+
+
       const token = localStorage.getItem('token');
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       });
 
-      this.http.post(`${apiBase}/properties`, payload, { headers }).subscribe({
+      // Determine if this is an edit or create operation
+      const isEdit = this.initialData && this.initialData.id;
+      const apiUrl = isEdit
+        ? `${apiBase}/properties/${this.initialData.id}`
+        : `${apiBase}/properties`;
+
+      const httpMethod = isEdit ? 'put' : 'post';
+
+      this.http[httpMethod](apiUrl, payload, { headers }).subscribe({
         next: () => {
           this.propertyForm.reset();
           this.close.emit();
           this.propertySaved.emit();
+          httpMethod === 'put' ?
+            Swal.fire({
+              icon: 'success',
+              title: 'Edit Property Successful!',
+            }):
+            Swal.fire({
+              icon: 'success',
+              title: 'Add Property Successful!',
+            })
         },
+
         error: (err) => {
-          console.error('Failed to save property', err);
+          console.error('Failed to save property', err); // Keep your console log for debugging
+
           if (err.status === 401) {
-            alert('❌ You must be logged in to perform this action.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Authentication Required',
+              text: 'You must be logged in to perform this action.'
+            });
           } else {
-            alert('❌ Failed to save property. Please try again later.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Save Failed',
+              text: 'Failed to save property. Please try again later.'
+            });
           }
         }
       });
@@ -98,5 +153,11 @@ export class PropertyFormModalComponent {
 
   onClose() {
     this.close.emit();
+  }
+
+  blockInvalidChar(event: KeyboardEvent) {
+    if (['e', 'E', '+', '-'].includes(event.key)) {
+      event.preventDefault();
+    }
   }
 }

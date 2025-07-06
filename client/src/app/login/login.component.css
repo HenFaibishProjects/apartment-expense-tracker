@@ -355,3 +355,25 @@ select.form-control option {
   color: #000;
   background-color: #fff;
 }
+/* your-component.component.css */
+
+.fab-container {
+  position: fixed; /* Ensures it stays in place when scrolling */
+  bottom: 20px;    /* Distance from the bottom of the viewport */
+  right: 20px;     /* Distance from the right of the viewport */
+  z-index: 999;    /* Ensures it appears above other content */
+
+  display: flex; /* If you have multiple FABs, arrange them */
+  flex-direction: column-reverse; /* Stacks mini FABs nicely above each other */
+  gap: 10px; /* Space between multiple FABs */
+
+  /* For a single FAB, flexbox isn't strictly necessary for positioning,
+     but it's good practice if you might add more later. */
+}
+
+/* Optional: Adjust specific FAB types if needed */
+button.mat-fab,
+button.mat-mini-fab,
+button.mat-extended-fab {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for elevation */
+}

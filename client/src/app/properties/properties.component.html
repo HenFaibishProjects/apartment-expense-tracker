@@ -124,9 +124,9 @@
   </div>
 </div>
 
-<!-- MOVE THE MODAL HERE - OUTSIDE THE MAIN CONTAINER -->
 <app-property-form-modal
   [show]="modalVisible"
+  [initialData]="selectedProperty"
   (close)="onModalClose()"
   (save)="onPropertySave($event)"
   (propertySaved)="getAllProperties()"

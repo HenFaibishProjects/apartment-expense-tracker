@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../shared/footer/footer.component';
+import { MatExpansionPanel, MatExpansionPanelDescription, MatExpansionPanelTitle } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -12,7 +13,10 @@ import { FooterComponent } from '../shared/footer/footer.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    FooterComponent
+    FooterComponent,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
   ],
   exports: [LoginComponent],
 })

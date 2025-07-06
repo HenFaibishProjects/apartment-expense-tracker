@@ -2,7 +2,12 @@
   <div class="modal-content">
     <!-- Header Section -->
     <div class="modal-header">
-      <h2 class="modal-title">Add Property</h2>
+      <h2 class="modal-title">
+        <span *ngIf="initialData && initialData.id; else addText">Update Property</span>
+      </h2>
+        <ng-template #addText>
+        <span>Add Property</span>
+      </ng-template>
       <button class="close-button" (click)="onClose()">×</button>
     </div>
 
@@ -59,7 +64,7 @@
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Zip Code:</p>
-            <input formControlName="zip"/>
+            <input formControlName="zip" type="number" (keydown)="blockInvalidChar($event)"/>
           </div>
 
           <div class="form-field">
@@ -72,12 +77,12 @@
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Floor:</p>
-            <input formControlName="floor" type="number" min="0" />
+            <input formControlName="floor" type="number" (keydown)="blockInvalidChar($event)" min="0" />
           </div>
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Total Floors:</p>
-            <input formControlName="floorsCount" type="number" min="1" />
+            <input formControlName="floorsCount" type="number" (keydown)="blockInvalidChar($event)" min="1" />
           </div>
 
           <div class="form-field">
@@ -98,7 +103,7 @@
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Utility Size (m²):</p>
-            <input formControlName="sizeUtil" type="number" min="0" step="0.1" />
+            <input formControlName="sizeUtil" type="number" (keydown)="blockInvalidChar($event)" min="0" step="0.1" />
             <div class="error-msg">
               *required
             </div>
@@ -106,12 +111,12 @@
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Yard Size (m²):</p>
-            <input formControlName="sizeYard" type="number" min="0" step="0.1" />
+            <input formControlName="sizeYard" type="number" (keydown)="blockInvalidChar($event)" min="0" step="0.1" />
           </div>
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Bedrooms:</p>
-            <input formControlName="bedRooms" type="number" min="0" />
+            <input formControlName="bedRooms" type="number" (keydown)="blockInvalidChar($event)" min="0" />
             <div class="error-msg">
               *required
             </div>
@@ -119,7 +124,7 @@
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Showers:</p>
-            <input formControlName="bathNumber" type="number" min="0" />
+            <input formControlName="bathNumber" type="number" (keydown)="blockInvalidChar($event)" min="0" />
             <div class="error-msg">
               *required
             </div>
@@ -127,7 +132,7 @@
 
           <div class="form-field">
             <p style="font-family:verdana,serif">Toilets:</p>
-            <input formControlName="toilets" type="number" min="0" />
+            <input formControlName="toilets" type="number" (keydown)="blockInvalidChar($event)" min="0" />
             <div class="error-msg">
               *required
             </div>
@@ -161,8 +166,12 @@
         Cancel
       </button>
       <button type="submit" class="btn btn-primary" [disabled]="!propertyForm.valid" (click)="onSubmit()">
-        💾 Save Property
+        <span *ngIf="initialData && initialData.id; else createText">Update Property</span>
       </button>
+
+      <ng-template #createText>
+        <span>Create Property</span>
+      </ng-template>
     </div>
   </div>
 </div>
