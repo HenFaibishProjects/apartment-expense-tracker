@@ -7,6 +7,9 @@ import { NgPipesModule } from 'ngx-pipes';
 import { PropertyManagementComponent } from './properties.component';
 import { PropertiesCardComponent } from '../properties-card/properties-card.component';
 import { PropertyFormModalComponent } from '../property-form-modal/property-form-modal.component';
+import { PropertyFilesModalComponent } from '../property-files-modal/property-files-modal.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatFabButton } from '@angular/material/button';
 
 @NgModule({
   declarations: [PropertyManagementComponent],
@@ -19,6 +22,9 @@ import { PropertyFormModalComponent } from '../property-form-modal/property-form
     FooterComponent,
     PropertiesCardComponent,
     PropertyFormModalComponent,
+    PropertyFilesModalComponent,
+    MatIcon,
+    MatFabButton,
 
   ],
   exports: [PropertyManagementComponent],

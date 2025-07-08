@@ -27,6 +27,10 @@ export class PropertyManagementComponent implements OnInit {
   searchTerm = '';
   sortColumn = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+  selectedPropertyForFiles: PropertyData | null = null;
+  isFilesModalOpen = false;
+  showFilesModal = false;
+  selectedPropertyId = '';
 
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
@@ -301,5 +305,47 @@ export class PropertyManagementComponent implements OnInit {
         }
       }
     });
+  }
+
+  openFileUpload() {
+    this.showFilesModal = true;
+  }
+
+
+  closeFilesModal() {
+    this.selectedPropertyForFiles = null;
+    this.isFilesModalOpen = false;
+  }
+
+  onFilesUploaded(files: File[]) {
+    console.log('Files uploaded:', files);
+
+    // Update the file count for the current property
+    //this.updatePropertyFileCount(this.selectedPropertyId, files.length);
+
+    // Show success message
+    //this.showSuccessMessage(`Successfully uploaded ${files.length} file(s)`);
+
+    // Here you would typically:
+    // 1. Upload files to your backend
+    // 2. Update the database
+    // 3. Refresh the property data
+    //this.uploadFilesToBackend(files);
+  }
+
+  onFileDeleted($event: string) {
+    console.log('File deleted:');
+
+    // Update the file count for the current property
+    //this.updatePropertyFileCount(this.selectedPropertyId, -1);
+
+    // Show success message
+    //this.showSuccessMessage('File deleted successfully');
+
+    // Here you would typically:
+    // 1. Delete file from your backend
+    // 2. Update the database
+    // 3. Refresh the property data
+    //this.deleteFileFromBackend(fileId);
   }
 }

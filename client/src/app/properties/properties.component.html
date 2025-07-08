@@ -1,4 +1,4 @@
-<!-- property-management.component.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div class="property-management-container" [class.modal-blur]="modalVisible">
   <!-- Header Section -->
   <div class="header-section">
@@ -108,8 +108,22 @@
             {{ formatDate(property.datePurchase) }}
           </td>
           <td class="actions-column">
-            <button (click)="openEditModal(property)">✏️</button>
-            <button (click)="deleteProperty(property.id!)">🗑️</button>
+            <button mat-fab extended color="primary" (click)="openEditModal(property)" class="small-delete-button">
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+            <br>
+            <br>
+            <button mat-fab extended color="primary" (click)="deleteProperty(property.id!)" class="small-delete-button">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+            <br>
+            <br>
+            <button mat-fab extended color="primary" (click)="openFileUpload()" class="small-delete-button">
+              <mat-icon>folder_open</mat-icon>
+              Browse Folder
+            </button>
           </td>
         </tr>
         </tbody>
@@ -132,6 +146,14 @@
   (propertySaved)="getAllProperties()"
   *ngIf="modalVisible">
 </app-property-form-modal>
+
+<app-property-files-modal
+  [isOpen]="showFilesModal"
+  [propertyId]="selectedPropertyId"
+  (close)="showFilesModal = false"
+  (fileUploaded)="onFilesUploaded($event)"
+  (fileDeleted)="onFileDeleted($event)">
+</app-property-files-modal>
 
 
 <footer></footer>

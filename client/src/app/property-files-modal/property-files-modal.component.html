@@ -1,0 +1,110 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="modal-header">
+      <h2 class="modal-title">
+        <i class="icon-folder"></i>
+        Property Files
+      </h2>
+      <button class="close-btn" (click)="closeModal()">
+        <i class="icon-close"></i>
+      </button>
+    </div>
+
+    <!-- File Upload Section -->
+    <div class="upload-section">
+      <div class="upload-area"
+           [class.drag-over]="isDragOver"
+           (dragover)="onDragOver($event)"
+           (dragleave)="onDragLeave($event)"
+           (drop)="onDrop($event)"
+      >
+        <i class="icon-upload"></i>
+        <p>Drop files here or click to upload</p>
+        <span class="upload-hint">Supports images, PDFs, and documents</span>
+      </div>
+      <input #fileInput type="file" multiple accept="image/*,.pdf,.doc,.docx"
+             (change)="onFileSelect($event)" style="display: none;">
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="tab-btn"
+              [class.active]="selectedFilter === 'all'"
+              (click)="setFilter('all')">
+        All Files ({{ getTotalFiles() }})
+      </button>
+      <button class="tab-btn"
+              [class.active]="selectedFilter === 'photo'"
+              (click)="setFilter('photo')">
+        <i class="icon-image"></i>
+        Photos ({{ getFilesByType('photo').length }})
+      </button>
+      <button class="tab-btn"
+              [class.active]="selectedFilter === 'contract'"
+              (click)="setFilter('contract')">
+        <i class="icon-contract"></i>
+        Contracts ({{ getFilesByType('contract').length }})
+      </button>
+      <button class="tab-btn"
+              [class.active]="selectedFilter === 'other'"
+              (click)="setFilter('other')">
+        <i class="icon-file"></i>
+        Other ({{ getFilesByType('other').length }})
+      </button>
+    </div>
+
+    <!-- Files Grid -->
+    <div class="files-container">
+      <div class="files-grid" *ngIf="getFilteredFiles().length > 0">
+        <div class="file-card" *ngFor="let file of getFilteredFiles(); trackBy: trackByFileId">
+          <div class="file-preview">
+            <img *ngIf="file.type === 'photo' && file.thumbnailUrl"
+                 [src]="file.thumbnailUrl"
+                 [alt]="file.name"
+                 class="file-thumbnail">
+            <div *ngIf="file.type === 'contract'" class="file-icon contract-icon">
+              <i class="icon-pdf"></i>
+            </div>
+            <div *ngIf="file.type === 'other'" class="file-icon other-icon">
+              <i class="icon-document"></i>
+            </div>
+          </div>
+
+          <div class="file-info">
+            <h4 class="file-name" [title]="file.name">{{ file.name }}</h4>
+            <p class="file-details">
+              {{ formatFileSize(file.size) }} • {{ formatDate(file.uploadDate) }}
+            </p>
+          </div>
+
+          <div class="file-actions">
+            <button class="action-btn view-btn" (click)="viewFile(file)" title="View">
+              <i class="icon-eye"></i>
+            </button>
+            <button class="action-btn download-btn" (click)="downloadFile(file)" title="Download">
+              <i class="icon-download"></i>
+            </button>
+            <button class="action-btn delete-btn" (click)="deleteFile(file)" title="Delete">
+              <i class="icon-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="getFilteredFiles().length === 0">
+        <i class="icon-empty"></i>
+        <h3>No files found</h3>
+        <p>{{ getEmptyStateMessage() }}</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <div class="file-count">
+        {{ getFilteredFiles().length }} of {{ getTotalFiles() }} files
+      </div>
+      <button class="btn btn-primary" (click)="closeModal()">Done</button>
+    </div>
+  </div>
+</div>
