@@ -703,3 +703,57 @@ body.modal-open .modal {
   filter: blur(3px);
   pointer-events: none;
 }
+
+/* In your-component.component.css or styles.css */
+
+.small-delete-button {
+  /* Reduce overall size */
+  height: 36px; /* A typical smaller button height */
+  min-width: unset; /* Override Material's default min-width for extended FABs */
+  padding: 0 16px; /* Adjust horizontal padding to make it narrower */
+
+  /* Smaller font for the text */
+  font-size: 14px;
+  line-height: 36px; /* Match height for vertical alignment of text */
+
+  /* Optional: Adjust border-radius if it looks off after shrinking */
+  border-radius: 18px; /* Half of height for a more circular-ish look if desired */
+}
+
+.small-delete-button .mat-icon {
+  /* Smaller icon size */
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  /* Adjust margin if the icon is too close to the text */
+  margin-right: 6px; /* Standard spacing for icon before text */
+}
+
+/* Important: Overriding Angular Material's internal elements */
+/* You might need to target Material's internal classes directly for full control */
+.small-delete-button.mat-mdc-fab.mat-mdc-extended-fab .mat-mdc-button-persistent-ripple {
+  border-radius: 18px; /* Match button border-radius for ripple */
+}
+
+.small-delete-button.mat-mdc-fab.mat-mdc-extended-fab .mat-mdc-button-touch-target {
+  height: 36px; /* Ensure touch target matches new height */
+  width: auto; /* Allow width to adjust */
+}
+
+
+.small-delete-button {
+  height: 36px !important;
+  min-width: unset !important;
+  padding: 0 16px !important;
+  font-size: 14px !important;
+  line-height: 36px !important;
+  border-radius: 18px !important;
+}
+
+.small-delete-button .mat-icon {
+  font-size: 13px !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin-right: 6px !important;
+}
+
