@@ -20,5 +20,6 @@ import { ApartmentUser } from './user.entity';
   ],
   providers: [AuthService, JwtStrategy, MailService],
   controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}
