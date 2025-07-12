@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   BadRequestException,
   Injectable,
@@ -14,6 +13,7 @@ import { RegisterDto } from './register.dot';
 import { MailService } from './mail.service';
 import { ResetPasswordDto } from './ResetPassword.dto';
 import { ApartmentUser } from './user.entity';
+import { SubscriptionPlan } from '../paypal/SubscriptionPlan';
 
 @Injectable()
 export class AuthService {
@@ -178,5 +178,13 @@ export class AuthService {
 
     await this.usersRepo.save(user);
     return { message: '✅ Password successfully reset.' };
+  }
+
+  async updateUserPlan(userId: number, plan: SubscriptionPlan) {
+    const user = await this.usersRepo.findOneBy({ id: userId });
+    if (!user) throw new Error('User not found');
+
+    user.plan = plan;
+    return this.usersRepo.save(user);
   }
 }

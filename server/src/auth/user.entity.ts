@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PropertyData } from '../property/property.entity';
+import { SubscriptionPlan } from '../paypal/SubscriptionPlan';
 
 
 @Entity({ name: 'apartments_users' })
@@ -39,6 +40,10 @@ export class ApartmentUser {
 
   @OneToMany(() => PropertyData, property => property.user)
   properties: PropertyData[];
+
+  @Column({ type: 'enum', enum: SubscriptionPlan, default: SubscriptionPlan.FREE })
+  plan: SubscriptionPlan;
+
 }
 
 

@@ -5,6 +5,7 @@ import { PropertyModule } from './property/property.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { AuthModule } from './auth/auth.module';
 import { PropertyData } from './property/property.entity';
+import { PaypalModule } from './paypal/paypal.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { PropertyData } from './property/property.entity';
     PropertyModule,
     ExpensesModule,
     AuthModule,
+    PaypalModule
   ],
 })
 export class AppModule {}
