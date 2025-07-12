@@ -3,7 +3,8 @@ import { AppModule } from './app.module';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
-import { ConfigModule } from '@nestjs/config';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -39,9 +40,11 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api');
+  app.use(express.json());
 
+
+  app.use(bodyParser.json());
   await app.listen(process.env.PORT || 3000);
 
-  await ConfigModule.forRoot({ isGlobal: true });
 }
 bootstrap();
