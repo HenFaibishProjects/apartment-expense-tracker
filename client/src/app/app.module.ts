@@ -13,12 +13,14 @@ import { FooterModule } from './shared/footer/footer.module';
 import { ActivationComponent } from './activation/activation.component';
 import { PropertyManagementComponent } from './properties/properties.component';
 import { PropertyManagementModule } from './properties/properties.module';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'activate', component: ActivationComponent },
-  { path: 'properties', component: PropertyManagementComponent }
+  { path: 'properties', component: PropertyManagementComponent },
+  { path: 'contact', component: ContactComponent }
 
 ];
 
@@ -35,7 +37,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     LoginModule,
     FooterModule,
-    PropertyManagementModule
+    PropertyManagementModule,
+    ContactComponent
   ],
   providers: [
     {
